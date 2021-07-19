@@ -48,10 +48,11 @@ RUN pip install --no-cache-dir xonsh \
     && rm -rf /tmp/*
 COPY .xonshrc /root/
 
-# set xonsh as default
+# set xonsh as default, ubuntu没这么麻烦的问题
 COPY passwd /etc/
-RUN chmod 644 /etc/passwd \
+RUN chage -M 99999 root \
+    && chmod 644 /etc/passwd \
     && cp /etc/passwd /etc/passwd- \
-    && chsh -s /usr/bin/xonsh
+    && chsh -s $(which xonsh)
 
 CMD ["xonsh"]
