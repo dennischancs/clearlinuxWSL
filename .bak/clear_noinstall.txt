@@ -1,0 +1,1197 @@
+# 如何找出不存在的命令 的 安装方法   --- 使用说明
+# 1. 必须粘贴到命令行中执行以显示系统提示，用 while read line 的方式只会显示错误无法显示系统提示
+     【注意：ctrl+鼠标滚轮把终端缩到最小，一次粘贴最多110行；然后用reset清屏。。如此反复操作。遇到卡住不动的，单次按ctrl+c终止卡住的命令，之后的命令会继续跑】
+  2. sed -n '1,3p'  表示截取输出信息的前3行，前3行中一定有我需要的`To install xxx use: swupd bundle-add xxxx`系统提示，就够了
+  3. 对于缺失的命令，1型正确输出，就是系统给出的正确提示
+     对于存在的命令，用--help参数，1型正确输出只取前3行，不然太多信息太麻烦。
+
+## 去重后，获得40多个缺少的包
+
+```bash
+swupd update --no-boot-update \
+&& swupd bundle-add bc \
+    bcache-tools \
+    binutils \
+    boot-encrypted \
+    bootloader \
+    byobu \
+    c-basic \
+    ceph \
+    cockpit \
+    cronie \
+    dev-utils \
+    diffoscope \
+    dosfstools \
+    editors \
+    firmware-update \
+    fuse \
+    fwupdate \
+    ghostscript \
+    gnupg \
+    hardware-uefi \
+    jupyter \
+    logrotate \
+    lz4 \
+    mtr \
+    netkit-telnet \
+    openssh-server \
+    os-cloudguest-vmware \
+    os-clr-on-clr \
+    polkit \
+    pulseaudio \
+    rsyslog \
+    shells \
+    storage-utils \
+    sysadmin-basic-dev \   # 包含了git
+    sysadmin-remote \
+    texinfo \
+    vim \
+    vim-minimal \
+    x11-tools \
+    xfsprogs \
+    wget net-tools network-basic \
+    neofetch
+&& rm -rf /var/lib/swupd/*
+```
+
+-----------
+
+## 缺少的命令，进行试探
+```bash
+aa-enabled --help | sed -n '1,3p' 1> 1.txt
+aa-exec --help | sed -n '1,3p' 1>> 1.txt
+aa-remove-unknown --help | sed -n '1,3p' 1>> 1.txt
+aa-status --help | sed -n '1,3p' 1>> 1.txt
+aa-teardown --help | sed -n '1,3p' 1>> 1.txt
+accessdb --help | sed -n '1,3p' 1>> 1.txt
+add-apt-repository --help | sed -n '1,3p' 1>> 1.txt
+addgnupghome --help | sed -n '1,3p' 1>> 1.txt
+addgroup --help | sed -n '1,3p' 1>> 1.txt
+addpart --help | sed -n '1,3p' 1>> 1.txt
+apparmor_parser --help | sed -n '1,3p' 1>> 1.txt
+apparmor_status --help | sed -n '1,3p' 1>> 1.txt
+apropos --help | sed -n '1,3p' 1>> 1.txt
+apt --help | sed -n '1,3p' 1>> 1.txt
+apt-add-repository --help | sed -n '1,3p' 1>> 1.txt
+apt-cache --help | sed -n '1,3p' 1>> 1.txt
+apt-sortpkgs --help | sed -n '1,3p' 1>> 1.txt
+arptables-nft --help | sed -n '1,3p' 1>> 1.txt
+arptables-nft-save --help | sed -n '1,3p' 1>> 1.txt
+basename --help | sed -n '1,3p' 1>> 1.txt
+bash --help | sed -n '1,3p' 1>> 1.txt
+bashbug --help | sed -n '1,3p' 1>> 1.txt
+bc --help | sed -n '1,3p' 1>> 1.txt
+bcache-super-show --help | sed -n '1,3p' 1>> 1.txt
+biosdecode --help | sed -n '1,3p' 1>> 1.txt
+blkdeactivate --help | sed -n '1,3p' 1>> 1.txt
+blkdiscard --help | sed -n '1,3p' 1>> 1.txt
+blkid --help | sed -n '1,3p' 1>> 1.txt
+blkzone --help | sed -n '1,3p' 1>> 1.txt
+blockdev --help | sed -n '1,3p' 1>> 1.txt
+boltctl --help | sed -n '1,3p' 1>> 1.txt
+busctl --help | sed -n '1,3p' 1>> 1.txt
+byobu-ctrl-a --help | sed -n '1,3p' 1>> 1.txt
+byobu-layout --help | sed -n '1,3p' 1>> 1.txt
+byobu-prompt --help | sed -n '1,3p' 1>> 1.txt
+byobu-quiet --help | sed -n '1,3p' 1>> 1.txt
+byobu-reconnect-sockets --help | sed -n '1,3p' 1>> 1.txt
+byobu-screen --help | sed -n '1,3p' 1>> 1.txt
+byobu-select-backend --help | sed -n '1,3p' 1>> 1.txt
+byobu-select-session --help | sed -n '1,3p' 1>> 1.txt
+byobu-status --help | sed -n '1,3p' 1>> 1.txt
+byobu-status-detail --help | sed -n '1,3p' 1>> 1.txt
+c_rehash --help | sed -n '1,3p' 1>> 1.txt
+c++filt --help | sed -n '1,3p' 1>> 1.txt
+cache_check --help | sed -n '1,3p' 1>> 1.txt
+cache_dump --help | sed -n '1,3p' 1>> 1.txt
+cache_repair --help | sed -n '1,3p' 1>> 1.txt
+captoinfo --help | sed -n '1,3p' 1>> 1.txt
+cat --help | sed -n '1,3p' 1>> 1.txt
+cgdisk --help | sed -n '1,3p' 1>> 1.txt
+chardetect --help | sed -n '1,3p' 1>> 1.txt
+chattr --help | sed -n '1,3p' 1>> 1.txt
+chcon --help | sed -n '1,3p' 1>> 1.txt
+chmod --help | sed -n '1,3p' 1>> 1.txt
+chpasswd --help | sed -n '1,3p' 1>> 1.txt
+chrt --help | sed -n '1,3p' 1>> 1.txt
+clear --help | sed -n '1,3p' 1>> 1.txt
+col --help | sed -n '1,3p' 1>> 1.txt
+col1 --help | sed -n '1,3p' 1>> 1.txt
+col2 --help | sed -n '1,3p' 1>> 1.txt
+col7 --help | sed -n '1,3p' 1>> 1.txt
+col8 --help | sed -n '1,3p' 1>> 1.txt
+col9 --help | sed -n '1,3p' 1>> 1.txt
+colcrt --help | sed -n '1,3p' 1>> 1.txt
+colrm --help | sed -n '1,3p' 1>> 1.txt
+column --help | sed -n '1,3p' 1>> 1.txt
+com.docker.cli --help | sed -n '1,3p' 1>> 1.txt
+comm --help | sed -n '1,3p' 1>> 1.txt
+conch3 --help | sed -n '1,3p' 1>> 1.txt
+corelist --help | sed -n '1,3p' 1>> 1.txt
+cp --help | sed -n '1,3p' 1>> 1.txt
+cpan --help | sed -n '1,3p' 1>> 1.txt
+cpan5.32-x86_64-linux-gnu --help | sed -n '1,3p' 1>> 1.txt
+cpgr --help | sed -n '1,3p' 1>> 1.txt
+cpio --help | sed -n '1,3p' 1>> 1.txt
+cppw --help | sed -n '1,3p' 1>> 1.txt
+cron --help | sed -n '1,3p' 1>> 1.txt
+crontab --help | sed -n '1,3p' 1>> 1.txt
+cryptdisks_start --help | sed -n '1,3p' 1>> 1.txt
+cryptdisks_stop --help | sed -n '1,3p' 1>> 1.txt
+cryptsetup --help | sed -n '1,3p' 1>> 1.txt
+cryptsetup-reencrypt --help | sed -n '1,3p' 1>> 1.txt
+ctail --help | sed -n '1,3p' 1>> 1.txt
+ctrlaltdel --help | sed -n '1,3p' 1>> 1.txt
+ctstat --help | sed -n '1,3p' 1>> 1.txt
+dbus-launch --help | sed -n '1,3p' 1>> 1.txt
+dbus-run-session --help | sed -n '1,3p' 1>> 1.txt
+dbus-send --help | sed -n '1,3p' 1>> 1.txt
+dbus-update-activation-environment --help | sed -n '1,3p' 1>> 1.txt
+dbus-uuidgen --help | sed -n '1,3p' 1>> 1.txt
+debconf-communicate --help | sed -n '1,3p' 1>> 1.txt
+debconf-escape --help | sed -n '1,3p' 1>> 1.txt
+debconf-set-selections --help | sed -n '1,3p' 1>> 1.txt
+deb-systemd-helper --help | sed -n '1,3p' 1>> 1.txt
+delpart --help | sed -n '1,3p' 1>> 1.txt
+deluser --help | sed -n '1,3p' 1>> 1.txt
+delv --help | sed -n '1,3p' 1>> 1.txt
+desktop-file-edit --help | sed -n '1,3p' 1>> 1.txt
+diff3 --help | sed -n '1,3p' 1>> 1.txt
+dirmngr --help | sed -n '1,3p' 1>> 1.txt
+do-release-upgrade --help | sed -n '1,3p' 1>> 1.txt
+dpkg-deb --help | sed -n '1,3p' 1>> 1.txt
+dpkg-fsys-usrunmess --help | sed -n '1,3p' 1>> 1.txt
+dpkg-maintscript-helper --help | sed -n '1,3p' 1>> 1.txt
+dpkg-preconfigure --help | sed -n '1,3p' 1>> 1.txt
+dumpe2fs --help | sed -n '1,3p' 1>> 1.txt
+dwp --help | sed -n '1,3p' 1>> 1.txt
+e2fsck --help | sed -n '1,3p' 1>> 1.txt
+e2image --help | sed -n '1,3p' 1>> 1.txt
+e2label --help | sed -n '1,3p' 1>> 1.txt
+e2mmpstatus --help | sed -n '1,3p' 1>> 1.txt
+e2scrub_all --help | sed -n '1,3p' 1>> 1.txt
+e2undo --help | sed -n '1,3p' 1>> 1.txt
+e4crypt --help | sed -n '1,3p' 1>> 1.txt
+ebtables --help | sed -n '1,3p' 1>> 1.txt
+ebtables-nft --help | sed -n '1,3p' 1>> 1.txt
+ebtables-nft-save --help | sed -n '1,3p' 1>> 1.txt
+ebtables-restore --help | sed -n '1,3p' 1>> 1.txt
+env --help | sed -n '1,3p' 1>> 1.txt
+envsubst --help | sed -n '1,3p' 1>> 1.txt
+ethtool --help | sed -n '1,3p' 1>> 1.txt
+expr --help | sed -n '1,3p' 1>> 1.txt
+factor --help | sed -n '1,3p' 1>> 1.txt
+fdformat --help | sed -n '1,3p' 1>> 1.txt
+fdisk --help | sed -n '1,3p' 1>> 1.txt
+filefrag --help | sed -n '1,3p' 1>> 1.txt
+finalrd --help | sed -n '1,3p' 1>> 1.txt
+fincore --help | sed -n '1,3p' 1>> 1.txt
+find --help | sed -n '1,3p' 1>> 1.txt
+findfs --help | sed -n '1,3p' 1>> 1.txt
+findmnt --help | sed -n '1,3p' 1>> 1.txt
+fixparts --help | sed -n '1,3p' 1>> 1.txt
+flock --help | sed -n '1,3p' 1>> 1.txt
+fmt --help | sed -n '1,3p' 1>> 1.txt
+fold --help | sed -n '1,3p' 1>> 1.txt
+free --help | sed -n '1,3p' 1>> 1.txt
+fsadm --help | sed -n '1,3p' 1>> 1.txt
+fsck --help | sed -n '1,3p' 1>> 1.txt
+fsck.btrfs --help | sed -n '1,3p' 1>> 1.txt
+fsck.cramfs --help | sed -n '1,3p' 1>> 1.txt
+fsck.ext2 --help | sed -n '1,3p' 1>> 1.txt
+fsck.ext3 --help | sed -n '1,3p' 1>> 1.txt
+fsck.ext4 --help | sed -n '1,3p' 1>> 1.txt
+fsck.fat --help | sed -n '1,3p' 1>> 1.txt
+fsck.minix --help | sed -n '1,3p' 1>> 1.txt
+fsck.msdos --help | sed -n '1,3p' 1>> 1.txt
+fsck.vfat --help | sed -n '1,3p' 1>> 1.txt
+fsck.xfs --help | sed -n '1,3p' 1>> 1.txt
+fsfreeze --help | sed -n '1,3p' 1>> 1.txt
+fstab-decode --help | sed -n '1,3p' 1>> 1.txt
+fstrim --help | sed -n '1,3p' 1>> 1.txt
+ftp --help | sed -n '1,3p' 1>> 1.txt
+fuser --help | sed -n '1,3p' 1>> 1.txt
+fusermount --help | sed -n '1,3p' 1>> 1.txt
+fwupdagent --help | sed -n '1,3p' 1>> 1.txt
+fwupdate --help | sed -n '1,3p' 1>> 1.txt
+fwupdmgr --help | sed -n '1,3p' 1>> 1.txt
+gawk --help | sed -n '1,3p' 1>> 1.txt
+gdisk --help | sed -n '1,3p' 1>> 1.txt
+genl --help | sed -n '1,3p' 1>> 1.txt
+getent --help | sed -n '1,3p' 1>> 1.txt
+gpgconf --help | sed -n '1,3p' 1>> 1.txt
+gpg-connect-agent --help | sed -n '1,3p' 1>> 1.txt
+grops --help | sed -n '1,3p' 1>> 1.txt
+grotty --help | sed -n '1,3p' 1>> 1.txt
+groupadd --help | sed -n '1,3p' 1>> 1.txt
+groupmems --help | sed -n '1,3p' 1>> 1.txt
+groupmod --help | sed -n '1,3p' 1>> 1.txt
+gzexe --help | sed -n '1,3p' 1>> 1.txt
+gzip --help | sed -n '1,3p' 1>> 1.txt
+helpztags --help | sed -n '1,3p' 1>> 1.txt
+host --help | sed -n '1,3p' 1>> 1.txt
+i386 --help | sed -n '1,3p' 1>> 1.txt
+info --help | sed -n '1,3p' 1>> 1.txt
+infocmp --help | sed -n '1,3p' 1>> 1.txt
+insmod --help | sed -n '1,3p' 1>> 1.txt
+integritysetup --help | sed -n '1,3p' 1>> 1.txt
+ionice --help | sed -n '1,3p' 1>> 1.txt
+ip6tables-nft-save --help | sed -n '1,3p' 1>> 1.txt
+ip6tables-restore --help | sed -n '1,3p' 1>> 1.txt
+ip6tables-restore-translate --help | sed -n '1,3p' 1>> 1.txt
+ip6tables-save --help | sed -n '1,3p' 1>> 1.txt
+iptables-legacy-restore --help | sed -n '1,3p' 1>> 1.txt
+iptables-nft-restore --help | sed -n '1,3p' 1>> 1.txt
+iptables-nft-save --help | sed -n '1,3p' 1>> 1.txt
+iptables-restore --help | sed -n '1,3p' 1>> 1.txt
+iptunnel --help | sed -n '1,3p' 1>> 1.txt
+irqbalance-ui --help | sed -n '1,3p' 1>> 1.txt
+ischroot --help | sed -n '1,3p' 1>> 1.txt
+iscsi_discovery --help | sed -n '1,3p' 1>> 1.txt
+iscsiadm --help | sed -n '1,3p' 1>> 1.txt
+iscsi-iname --help | sed -n '1,3p' 1>> 1.txt
+join --help | sed -n '1,3p' 1>> 1.txt
+journalctl --help | sed -n '1,3p' 1>> 1.txt
+jsondiff --help | sed -n '1,3p' 1>> 1.txt
+jsonpatch --help | sed -n '1,3p' 1>> 1.txt
+json-patch-jsondiff --help | sed -n '1,3p' 1>> 1.txt
+jsonpointer --help | sed -n '1,3p' 1>> 1.txt
+keep-one-running --help | sed -n '1,3p' 1>> 1.txt
+kill --help | sed -n '1,3p' 1>> 1.txt
+kpartx --help | sed -n '1,3p' 1>> 1.txt
+last --help | sed -n '1,3p' 1>> 1.txt
+lastb --help | sed -n '1,3p' 1>> 1.txt
+lastlog --help | sed -n '1,3p' 1>> 1.txt
+lcf --help | sed -n '1,3p' 1>> 1.txt
+ldattach --help | sed -n '1,3p' 1>> 1.txt
+ldconfig --help | sed -n '1,3p' 1>> 1.txt
+ldconfig.real --help | sed -n '1,3p' 1>> 1.txt
+less --help | sed -n '1,3p' 1>> 1.txt
+lessecho --help | sed -n '1,3p' 1>> 1.txt
+libnetcfg --help | sed -n '1,3p' 1>> 1.txt
+link --help | sed -n '1,3p' 1>> 1.txt
+linux32 --help | sed -n '1,3p' 1>> 1.txt
+listres --help | sed -n '1,3p' 1>> 1.txt
+lnstat --help | sed -n '1,3p' 1>> 1.txt
+loadunimap --help | sed -n '1,3p' 1>> 1.txt
+locale-check --help | sed -n '1,3p' 1>> 1.txt
+localedef --help | sed -n '1,3p' 1>> 1.txt
+locale-gen --help | sed -n '1,3p' 1>> 1.txt
+logrotate --help | sed -n '1,3p' 1>> 1.txt
+losetup --help | sed -n '1,3p' 1>> 1.txt
+lsblk --help | sed -n '1,3p' 1>> 1.txt
+lscpu --help | sed -n '1,3p' 1>> 1.txt
+lshw --help | sed -n '1,3p' 1>> 1.txt
+lslocks --help | sed -n '1,3p' 1>> 1.txt
+lslogins --help | sed -n '1,3p' 1>> 1.txt
+lsmod --help | sed -n '1,3p' 1>> 1.txt
+lsof --help | sed -n '1,3p' 1>> 1.txt
+lspci --help | sed -n '1,3p' 1>> 1.txt
+lspgpot --help | sed -n '1,3p' 1>> 1.txt
+lsusb --help | sed -n '1,3p' 1>> 1.txt
+ltrace --help | sed -n '1,3p' 1>> 1.txt
+luit --help | sed -n '1,3p' 1>> 1.txt
+luksformat --help | sed -n '1,3p' 1>> 1.txt
+lvchange --help | sed -n '1,3p' 1>> 1.txt
+lvconvert --help | sed -n '1,3p' 1>> 1.txt
+lvcreate --help | sed -n '1,3p' 1>> 1.txt
+lvdisplay --help | sed -n '1,3p' 1>> 1.txt
+lvextend --help | sed -n '1,3p' 1>> 1.txt
+lvm --help | sed -n '1,3p' 1>> 1.txt
+lvmconfig --help | sed -n '1,3p' 1>> 1.txt
+lvmdiskscan --help | sed -n '1,3p' 1>> 1.txt
+lvmdump --help | sed -n '1,3p' 1>> 1.txt
+lvmsadc --help | sed -n '1,3p' 1>> 1.txt
+lvmsar --help | sed -n '1,3p' 1>> 1.txt
+lvreduce --help | sed -n '1,3p' 1>> 1.txt
+lvremove --help | sed -n '1,3p' 1>> 1.txt
+lvrename --help | sed -n '1,3p' 1>> 1.txt
+lz4 --help | sed -n '1,3p' 1>> 1.txt
+lz4c --help | sed -n '1,3p' 1>> 1.txt
+lz4cat --help | sed -n '1,3p' 1>> 1.txt
+lzcat --help | sed -n '1,3p' 1>> 1.txt
+lzless --help | sed -n '1,3p' 1>> 1.txt
+lzma --help | sed -n '1,3p' 1>> 1.txt
+lzmore --help | sed -n '1,3p' 1>> 1.txt
+make-bcache --help | sed -n '1,3p' 1>> 1.txt
+man-recode --help | sed -n '1,3p' 1>> 1.txt
+mcookie --help | sed -n '1,3p' 1>> 1.txt
+mdadm --help | sed -n '1,3p' 1>> 1.txt
+mesa-overlay-control.py --help | sed -n '1,3p' 1>> 1.txt
+mesg --help | sed -n '1,3p' 1>> 1.txt
+migrate-pubring-from-classic-gpg --help | sed -n '1,3p' 1>> 1.txt
+mkfs.ext3 --help | sed -n '1,3p' 1>> 1.txt
+mkfs.ext4 --help | sed -n '1,3p' 1>> 1.txt
+mkfs.minix --help | sed -n '1,3p' 1>> 1.txt
+mkfs.ntfs --help | sed -n '1,3p' 1>> 1.txt
+mkfs.xfs --help | sed -n '1,3p' 1>> 1.txt
+mkhomedir_helper --help | sed -n '1,3p' 1>> 1.txt
+mkinitramfs --help | sed -n '1,3p' 1>> 1.txt
+mklost+found --help | sed -n '1,3p' 1>> 1.txt
+mkswap --help | sed -n '1,3p' 1>> 1.txt
+modinfo --help | sed -n '1,3p' 1>> 1.txt
+mount.ntfs-3g --help | sed -n '1,3p' 1>> 1.txt
+mtr-packet --help | sed -n '1,3p' 1>> 1.txt
+multipath --help | sed -n '1,3p' 1>> 1.txt
+nawk --help | sed -n '1,3p' 1>> 1.txt
+needrestart --help | sed -n '1,3p' 1>> 1.txt
+netcat --help | sed -n '1,3p' 1>> 1.txt
+netkit-ftp --help | sed -n '1,3p' 1>> 1.txt
+netstat --help | sed -n '1,3p' 1>> 1.txt
+networkd-dispatcher --help | sed -n '1,3p' 1>> 1.txt
+newgrp --help | sed -n '1,3p' 1>> 1.txt
+NF --help | sed -n '1,3p' 1>> 1.txt
+nfnl_osf --help | sed -n '1,3p' 1>> 1.txt
+ngettext --help | sed -n '1,3p' 1>> 1.txt
+nice --help | sed -n '1,3p' 1>> 1.txt
+nisdomainname --help | sed -n '1,3p' 1>> 1.txt
+nl --help | sed -n '1,3p' 1>> 1.txt
+nroff --help | sed -n '1,3p' 1>> 1.txt
+nsenter --help | sed -n '1,3p' 1>> 1.txt
+nslookup --help | sed -n '1,3p' 1>> 1.txt
+nsupdate --help | sed -n '1,3p' 1>> 1.txt
+ntfscluster --help | sed -n '1,3p' 1>> 1.txt
+ntfsdecrypt --help | sed -n '1,3p' 1>> 1.txt
+ntfsfallocate --help | sed -n '1,3p' 1>> 1.txt
+ntfssecaudit --help | sed -n '1,3p' 1>> 1.txt
+ntfstruncate --help | sed -n '1,3p' 1>> 1.txt
+objdump --help | sed -n '1,3p' 1>> 1.txt
+oem-getlogs --help | sed -n '1,3p' 1>> 1.txt
+openssl --help | sed -n '1,3p' 1>> 1.txt
+overlayroot-chroot --help | sed -n '1,3p' 1>> 1.txt
+ownership --help | sed -n '1,3p' 1>> 1.txt
+pacat --help | sed -n '1,3p' 1>> 1.txt
+pacmd --help | sed -n '1,3p' 1>> 1.txt
+pager --help | sed -n '1,3p' 1>> 1.txt
+pam_tally2 --help | sed -n '1,3p' 1>> 1.txt
+pam_timestamp_check --help | sed -n '1,3p' 1>> 1.txt
+partx --help | sed -n '1,3p' 1>> 1.txt
+pdb3.9 --help | sed -n '1,3p' 1>> 1.txt
+perlivp --help | sed -n '1,3p' 1>> 1.txt
+perlthanks --help | sed -n '1,3p' 1>> 1.txt
+pf2afm --help | sed -n '1,3p' 1>> 1.txt
+pfbtopfa --help | sed -n '1,3p' 1>> 1.txt
+pftp --help | sed -n '1,3p' 1>> 1.txt
+pico --help | sed -n '1,3p' 1>> 1.txt
+pinentry --help | sed -n '1,3p' 1>> 1.txt
+pinentry-curses --help | sed -n '1,3p' 1>> 1.txt
+ping --help | sed -n '1,3p' 1>> 1.txt
+ping4 --help | sed -n '1,3p' 1>> 1.txt
+pkttyagent --help | sed -n '1,3p' 1>> 1.txt
+preconv --help | sed -n '1,3p' 1>> 1.txt
+printafm --help | sed -n '1,3p' 1>> 1.txt
+printenv --help | sed -n '1,3p' 1>> 1.txt
+psfgettable --help | sed -n '1,3p' 1>> 1.txt
+psfxtable --help | sed -n '1,3p' 1>> 1.txt
+pvresize --help | sed -n '1,3p' 1>> 1.txt
+pwck --help | sed -n '1,3p' 1>> 1.txt
+pwdx --help | sed -n '1,3p' 1>> 1.txt
+pwunconv --help | sed -n '1,3p' 1>> 1.txt
+pyjwt3 --help | sed -n '1,3p' 1>> 1.txt
+ranlib --help | sed -n '1,3p' 1>> 1.txt
+raw --help | sed -n '1,3p' 1>> 1.txt
+rdma --help | sed -n '1,3p' 1>> 1.txt
+red --help | sed -n '1,3p' 1>> 1.txt
+remove-shell --help | sed -n '1,3p' 1>> 1.txt
+renice --help | sed -n '1,3p' 1>> 1.txt
+reset --help | sed -n '1,3p' 1>> 1.txt
+resolvectl --help | sed -n '1,3p' 1>> 1.txt
+rmt-tar --help | sed -n '1,3p' 1>> 1.txt
+rnano --help | sed -n '1,3p' 1>> 1.txt
+routel --help | sed -n '1,3p' 1>> 1.txt
+rsync --help | sed -n '1,3p' 1>> 1.txt
+rsync-ssl --help | sed -n '1,3p' 1>> 1.txt
+rsyslogd --help | sed -n '1,3p' 1>> 1.txt
+rtacct --help | sed -n '1,3p' 1>> 1.txt
+rtcwake --help | sed -n '1,3p' 1>> 1.txt
+run-one-constantly --help | sed -n '1,3p' 1>> 1.txt
+runuser --help | sed -n '1,3p' 1>> 1.txt
+rview --help | sed -n '1,3p' 1>> 1.txt
+sbsiglist --help | sed -n '1,3p' 1>> 1.txt
+sbsign --help | sed -n '1,3p' 1>> 1.txt
+sbvarsign --help | sed -n '1,3p' 1>> 1.txt
+scp --help | sed -n '1,3p' 1>> 1.txt
+screendump --help | sed -n '1,3p' 1>> 1.txt
+scriptreplay --help | sed -n '1,3p' 1>> 1.txt
+scsi_start --help | sed -n '1,3p' 1>> 1.txt
+scsi_temperature --help | sed -n '1,3p' 1>> 1.txt
+sensible-pager --help | sed -n '1,3p' 1>> 1.txt
+service --help | sed -n '1,3p' 1>> 1.txt
+setarch --help | sed -n '1,3p' 1>> 1.txt
+setcap --help | sed -n '1,3p' 1>> 1.txt
+setfont --help | sed -n '1,3p' 1>> 1.txt
+setmetamode --help | sed -n '1,3p' 1>> 1.txt
+setupcon --help | sed -n '1,3p' 1>> 1.txt
+sftp --help | sed -n '1,3p' 1>> 1.txt
+sg_opcodes --help | sed -n '1,3p' 1>> 1.txt
+sg_persist --help | sed -n '1,3p' 1>> 1.txt
+sg_rbuf --help | sed -n '1,3p' 1>> 1.txt
+sg_rdac --help | sed -n '1,3p' 1>> 1.txt
+sg_read_block_limits --help | sed -n '1,3p' 1>> 1.txt
+sg_read_buffer --help | sed -n '1,3p' 1>> 1.txt
+sg_read_long --help | sed -n '1,3p' 1>> 1.txt
+sg_readcap --help | sed -n '1,3p' 1>> 1.txt
+sg_reassign --help | sed -n '1,3p' 1>> 1.txt
+sg_referrals --help | sed -n '1,3p' 1>> 1.txt
+sg_reset --help | sed -n '1,3p' 1>> 1.txt
+sg_reset_wp --help | sed -n '1,3p' 1>> 1.txt
+sg_rmsn --help | sed -n '1,3p' 1>> 1.txt
+sg_rtpg --help | sed -n '1,3p' 1>> 1.txt
+sg_safte --help | sed -n '1,3p' 1>> 1.txt
+sg_sanitize --help | sed -n '1,3p' 1>> 1.txt
+sg_sat_identify --help | sed -n '1,3p' 1>> 1.txt
+sg_sat_phy_event --help | sed -n '1,3p' 1>> 1.txt
+sg_sat_read_gplog --help | sed -n '1,3p' 1>> 1.txt
+sg_sat_set_features --help | sed -n '1,3p' 1>> 1.txt
+sg_scan --help | sed -n '1,3p' 1>> 1.txt
+sg_seek --help | sed -n '1,3p' 1>> 1.txt
+sg_senddiag --help | sed -n '1,3p' 1>> 1.txt
+sg_ses --help | sed -n '1,3p' 1>> 1.txt
+sg_ses_microcode --help | sed -n '1,3p' 1>> 1.txt
+sg_start --help | sed -n '1,3p' 1>> 1.txt
+sg_stpg --help | sed -n '1,3p' 1>> 1.txt
+sg_stream_ctl --help | sed -n '1,3p' 1>> 1.txt
+sg_sync --help | sed -n '1,3p' 1>> 1.txt
+sg_test_rwbuf --help | sed -n '1,3p' 1>> 1.txt
+sg_timestamp --help | sed -n '1,3p' 1>> 1.txt
+sg_turs --help | sed -n '1,3p' 1>> 1.txt
+sg_unmap --help | sed -n '1,3p' 1>> 1.txt
+sg_verify --help | sed -n '1,3p' 1>> 1.txt
+sg_vpd --help | sed -n '1,3p' 1>> 1.txt
+sg_wr_mode --help | sed -n '1,3p' 1>> 1.txt
+sg_write_buffer --help | sed -n '1,3p' 1>> 1.txt
+sg_write_long --help | sed -n '1,3p' 1>> 1.txt
+sg_write_same --help | sed -n '1,3p' 1>> 1.txt
+sg_write_verify --help | sed -n '1,3p' 1>> 1.txt
+sg_write_x --help | sed -n '1,3p' 1>> 1.txt
+sg_xcopy --help | sed -n '1,3p' 1>> 1.txt
+sg_zone --help | sed -n '1,3p' 1>> 1.txt
+sgdisk --help | sed -n '1,3p' 1>> 1.txt
+sginfo --help | sed -n '1,3p' 1>> 1.txt
+sgm_dd --help | sed -n '1,3p' 1>> 1.txt
+sgp_dd --help | sed -n '1,3p' 1>> 1.txt
+sh --help | sed -n '1,3p' 1>> 1.txt
+sha1sum --help | sed -n '1,3p' 1>> 1.txt
+sha224sum --help | sed -n '1,3p' 1>> 1.txt
+sha256sum --help | sed -n '1,3p' 1>> 1.txt
+sha384sum --help | sed -n '1,3p' 1>> 1.txt
+sha512sum --help | sed -n '1,3p' 1>> 1.txt
+shadowconfig --help | sed -n '1,3p' 1>> 1.txt
+shasum --help | sed -n '1,3p' 1>> 1.txt
+showconsolefont --help | sed -n '1,3p' 1>> 1.txt
+showkey --help | sed -n '1,3p' 1>> 1.txt
+shred --help | sed -n '1,3p' 1>> 1.txt
+shuf --help | sed -n '1,3p' 1>> 1.txt
+shutdown --help | sed -n '1,3p' 1>> 1.txt
+size --help | sed -n '1,3p' 1>> 1.txt
+skill --help | sed -n '1,3p' 1>> 1.txt
+slabtop --help | sed -n '1,3p' 1>> 1.txt
+slattach --help | sed -n '1,3p' 1>> 1.txt
+sleep --help | sed -n '1,3p' 1>> 1.txt
+slogin --help | sed -n '1,3p' 1>> 1.txt
+snap --help | sed -n '1,3p' 1>> 1.txt
+snapctl --help | sed -n '1,3p' 1>> 1.txt
+snapfuse --help | sed -n '1,3p' 1>> 1.txt
+snice --help | sed -n '1,3p' 1>> 1.txt
+soelim --help | sed -n '1,3p' 1>> 1.txt
+sort --help | sed -n '1,3p' 1>> 1.txt
+sos --help | sed -n '1,3p' 1>> 1.txt
+sos-collector --help | sed -n '1,3p' 1>> 1.txt
+sosreport --help | sed -n '1,3p' 1>> 1.txt
+splain --help | sed -n '1,3p' 1>> 1.txt
+split --help | sed -n '1,3p' 1>> 1.txt
+splitfont --help | sed -n '1,3p' 1>> 1.txt
+ss --help | sed -n '1,3p' 1>> 1.txt
+ssh --help | sed -n '1,3p' 1>> 1.txt
+ssh-add --help | sed -n '1,3p' 1>> 1.txt
+ssh-agent --help | sed -n '1,3p' 1>> 1.txt
+ssh-argv0 --help | sed -n '1,3p' 1>> 1.txt
+ssh-copy-id --help | sed -n '1,3p' 1>> 1.txt
+sshd --help | sed -n '1,3p' 1>> 1.txt
+ssh-import-id --help | sed -n '1,3p' 1>> 1.txt
+ssh-import-id-gh --help | sed -n '1,3p' 1>> 1.txt
+ssh-import-id-lp --help | sed -n '1,3p' 1>> 1.txt
+ssh-keygen --help | sed -n '1,3p' 1>> 1.txt
+ssh-keyscan --help | sed -n '1,3p' 1>> 1.txt
+start-stop-daemon --help | sed -n '1,3p' 1>> 1.txt
+stat --help | sed -n '1,3p' 1>> 1.txt
+static-sh --help | sed -n '1,3p' 1>> 1.txt
+stdbuf --help | sed -n '1,3p' 1>> 1.txt
+strace --help | sed -n '1,3p' 1>> 1.txt
+strace-log-merge --help | sed -n '1,3p' 1>> 1.txt
+streamzip --help | sed -n '1,3p' 1>> 1.txt
+strings --help | sed -n '1,3p' 1>> 1.txt
+strip --help | sed -n '1,3p' 1>> 1.txt
+stty --help | sed -n '1,3p' 1>> 1.txt
+su --help | sed -n '1,3p' 1>> 1.txt
+sudo --help | sed -n '1,3p' 1>> 1.txt
+sudo_logsrvd --help | sed -n '1,3p' 1>> 1.txt
+sudo_sendlog --help | sed -n '1,3p' 1>> 1.txt
+sudoedit --help | sed -n '1,3p' 1>> 1.txt
+sudoreplay --help | sed -n '1,3p' 1>> 1.txt
+sulogin --help | sed -n '1,3p' 1>> 1.txt
+sum --help | sed -n '1,3p' 1>> 1.txt
+swaplabel --help | sed -n '1,3p' 1>> 1.txt
+swapoff --help | sed -n '1,3p' 1>> 1.txt
+swapon --help | sed -n '1,3p' 1>> 1.txt
+switch_root --help | sed -n '1,3p' 1>> 1.txt
+symcryptrun --help | sed -n '1,3p' 1>> 1.txt
+sync --help | sed -n '1,3p' 1>> 1.txt
+sysctl --help | sed -n '1,3p' 1>> 1.txt
+systemctl --help | sed -n '1,3p' 1>> 1.txt
+systemd --help | sed -n '1,3p' 1>> 1.txt
+systemd-analyze --help | sed -n '1,3p' 1>> 1.txt
+systemd-ask-password --help | sed -n '1,3p' 1>> 1.txt
+systemd-cat --help | sed -n '1,3p' 1>> 1.txt
+systemd-cgls --help | sed -n '1,3p' 1>> 1.txt
+systemd-cgtop --help | sed -n '1,3p' 1>> 1.txt
+systemd-delta --help | sed -n '1,3p' 1>> 1.txt
+systemd-detect-virt --help | sed -n '1,3p' 1>> 1.txt
+systemd-escape --help | sed -n '1,3p' 1>> 1.txt
+systemd-hwdb --help | sed -n '1,3p' 1>> 1.txt
+systemd-id128 --help | sed -n '1,3p' 1>> 1.txt
+systemd-inhibit --help | sed -n '1,3p' 1>> 1.txt
+systemd-machine-id-setup --help | sed -n '1,3p' 1>> 1.txt
+systemd-mount --help | sed -n '1,3p' 1>> 1.txt
+systemd-notify --help | sed -n '1,3p' 1>> 1.txt
+systemd-path --help | sed -n '1,3p' 1>> 1.txt
+systemd-resolve --help | sed -n '1,3p' 1>> 1.txt
+systemd-run --help | sed -n '1,3p' 1>> 1.txt
+systemd-socket-activate --help | sed -n '1,3p' 1>> 1.txt
+systemd-stdio-bridge --help | sed -n '1,3p' 1>> 1.txt
+systemd-sysusers --help | sed -n '1,3p' 1>> 1.txt
+systemd-tmpfiles --help | sed -n '1,3p' 1>> 1.txt
+systemd-tty-ask-password-agent --help | sed -n '1,3p' 1>> 1.txt
+systemd-umount --help | sed -n '1,3p' 1>> 1.txt
+tabs --help | sed -n '1,3p' 1>> 1.txt
+tac --help | sed -n '1,3p' 1>> 1.txt
+tail --help | sed -n '1,3p' 1>> 1.txt
+tar --help | sed -n '1,3p' 1>> 1.txt
+tarcat --help | sed -n '1,3p' 1>> 1.txt
+taskset --help | sed -n '1,3p' 1>> 1.txt
+tbl --help | sed -n '1,3p' 1>> 1.txt
+tc --help | sed -n '1,3p' 1>> 1.txt
+tcpdump --help | sed -n '1,3p' 1>> 1.txt
+tee --help | sed -n '1,3p' 1>> 1.txt
+telinit --help | sed -n '1,3p' 1>> 1.txt
+telnet --help | sed -n '1,3p' 1>> 1.txt
+telnet.netkit --help | sed -n '1,3p' 1>> 1.txt
+tempfile --help | sed -n '1,3p' 1>> 1.txt
+test --help | sed -n '1,3p' 1>> 1.txt
+thin_check --help | sed -n '1,3p' 1>> 1.txt
+thin_delta --help | sed -n '1,3p' 1>> 1.txt
+thin_dump --help | sed -n '1,3p' 1>> 1.txt
+thin_ls --help | sed -n '1,3p' 1>> 1.txt
+thin_metadata_size --help | sed -n '1,3p' 1>> 1.txt
+thin_repair --help | sed -n '1,3p' 1>> 1.txt
+thin_restore --help | sed -n '1,3p' 1>> 1.txt
+thin_rmap --help | sed -n '1,3p' 1>> 1.txt
+thin_trim --help | sed -n '1,3p' 1>> 1.txt
+tic --help | sed -n '1,3p' 1>> 1.txt
+time --help | sed -n '1,3p' 1>> 1.txt
+timedatectl --help | sed -n '1,3p' 1>> 1.txt
+timeout --help | sed -n '1,3p' 1>> 1.txt
+tipc --help | sed -n '1,3p' 1>> 1.txt
+tkconch3 --help | sed -n '1,3p' 1>> 1.txt
+tload --help | sed -n '1,3p' 1>> 1.txt
+tmux --help | sed -n '1,3p' 1>> 1.txt
+toe --help | sed -n '1,3p' 1>> 1.txt
+top --help | sed -n '1,3p' 1>> 1.txt
+touch --help | sed -n '1,3p' 1>> 1.txt
+tput --help | sed -n '1,3p' 1>> 1.txt
+tr --help | sed -n '1,3p' 1>> 1.txt
+tracepath --help | sed -n '1,3p' 1>> 1.txt
+traceroute6 --help | sed -n '1,3p' 1>> 1.txt
+traceroute6.iputils --help | sed -n '1,3p' 1>> 1.txt
+trial3 --help | sed -n '1,3p' 1>> 1.txt
+troff --help | sed -n '1,3p' 1>> 1.txt
+truncate --help | sed -n '1,3p' 1>> 1.txt
+tset --help | sed -n '1,3p' 1>> 1.txt
+tsort --help | sed -n '1,3p' 1>> 1.txt
+tty --help | sed -n '1,3p' 1>> 1.txt
+tune2fs --help | sed -n '1,3p' 1>> 1.txt
+twist3 --help | sed -n '1,3p' 1>> 1.txt
+twistd3 --help | sed -n '1,3p' 1>> 1.txt
+tzconfig --help | sed -n '1,3p' 1>> 1.txt
+tzselect --help | sed -n '1,3p' 1>> 1.txt
+ua --help | sed -n '1,3p' 1>> 1.txt
+ubuntu-advantage --help | sed -n '1,3p' 1>> 1.txt
+ubuntu-bug --help | sed -n '1,3p' 1>> 1.txt
+ubuntu-core-launcher --help | sed -n '1,3p' 1>> 1.txt
+ubuntu-distro-info --help | sed -n '1,3p' 1>> 1.txt
+ubuntu-security-status --help | sed -n '1,3p' 1>> 1.txt
+ucf --help | sed -n '1,3p' 1>> 1.txt
+ucfq --help | sed -n '1,3p' 1>> 1.txt
+ucfr --help | sed -n '1,3p' 1>> 1.txt
+udevadm --help | sed -n '1,3p' 1>> 1.txt
+udisksctl --help | sed -n '1,3p' 1>> 1.txt
+ufw --help | sed -n '1,3p' 1>> 1.txt
+ul --help | sed -n '1,3p' 1>> 1.txt
+ulockmgr_server --help | sed -n '1,3p' 1>> 1.txt
+umount --help | sed -n '1,3p' 1>> 1.txt
+umount.udisks2 --help | sed -n '1,3p' 1>> 1.txt
+uname --help | sed -n '1,3p' 1>> 1.txt
+unattended-upgrade --help | sed -n '1,3p' 1>> 1.txt
+unattended-upgrades --help | sed -n '1,3p' 1>> 1.txt
+uncompress --help | sed -n '1,3p' 1>> 1.txt
+unexpand --help | sed -n '1,3p' 1>> 1.txt
+unicode_start --help | sed -n '1,3p' 1>> 1.txt
+unicode_stop --help | sed -n '1,3p' 1>> 1.txt
+uniq --help | sed -n '1,3p' 1>> 1.txt
+unix_chkpwd --help | sed -n '1,3p' 1>> 1.txt
+unix_update --help | sed -n '1,3p' 1>> 1.txt
+unlink --help | sed -n '1,3p' 1>> 1.txt
+unlz4 --help | sed -n '1,3p' 1>> 1.txt
+unlzma --help | sed -n '1,3p' 1>> 1.txt
+unmkinitramfs --help | sed -n '1,3p' 1>> 1.txt
+unshare --help | sed -n '1,3p' 1>> 1.txt
+unsquashfs --help | sed -n '1,3p' 1>> 1.txt
+unxz --help | sed -n '1,3p' 1>> 1.txt
+update-alternatives --help | sed -n '1,3p' 1>> 1.txt
+update-ca-certificates --help | sed -n '1,3p' 1>> 1.txt
+update-desktop-database --help | sed -n '1,3p' 1>> 1.txt
+update-gsfontmap --help | sed -n '1,3p' 1>> 1.txt
+update-info-dir --help | sed -n '1,3p' 1>> 1.txt
+update-initramfs --help | sed -n '1,3p' 1>> 1.txt
+update-locale --help | sed -n '1,3p' 1>> 1.txt
+update-mime-database --help | sed -n '1,3p' 1>> 1.txt
+update-motd --help | sed -n '1,3p' 1>> 1.txt
+update-passwd --help | sed -n '1,3p' 1>> 1.txt
+update-pciids --help | sed -n '1,3p' 1>> 1.txt
+update-rc.d --help | sed -n '1,3p' 1>> 1.txt
+uptime --help | sed -n '1,3p' 1>> 1.txt
+usb-devices --help | sed -n '1,3p' 1>> 1.txt
+usbhid-dump --help | sed -n '1,3p' 1>> 1.txt
+usbreset --help | sed -n '1,3p' 1>> 1.txt
+useradd --help | sed -n '1,3p' 1>> 1.txt
+userdel --help | sed -n '1,3p' 1>> 1.txt
+usermod --help | sed -n '1,3p' 1>> 1.txt
+users --help | sed -n '1,3p' 1>> 1.txt
+utmpdump --help | sed -n '1,3p' 1>> 1.txt
+uuidd --help | sed -n '1,3p' 1>> 1.txt
+uuidgen --help | sed -n '1,3p' 1>> 1.txt
+uuidparse --help | sed -n '1,3p' 1>> 1.txt
+validlocale --help | sed -n '1,3p' 1>> 1.txt
+vcs-run --help | sed -n '1,3p' 1>> 1.txt
+vcstime --help | sed -n '1,3p' 1>> 1.txt
+vdir --help | sed -n '1,3p' 1>> 1.txt
+veritysetup --help | sed -n '1,3p' 1>> 1.txt
+VGAuthService --help | sed -n '1,3p' 1>> 1.txt
+vgcfgbackup --help | sed -n '1,3p' 1>> 1.txt
+vgcfgrestore --help | sed -n '1,3p' 1>> 1.txt
+vgchange --help | sed -n '1,3p' 1>> 1.txt
+vgck --help | sed -n '1,3p' 1>> 1.txt
+vgconvert --help | sed -n '1,3p' 1>> 1.txt
+vgcreate --help | sed -n '1,3p' 1>> 1.txt
+vgdisplay --help | sed -n '1,3p' 1>> 1.txt
+vgexport --help | sed -n '1,3p' 1>> 1.txt
+vgextend --help | sed -n '1,3p' 1>> 1.txt
+vgimport --help | sed -n '1,3p' 1>> 1.txt
+vgimportclone --help | sed -n '1,3p' 1>> 1.txt
+vgmerge --help | sed -n '1,3p' 1>> 1.txt
+vgmknodes --help | sed -n '1,3p' 1>> 1.txt
+vgreduce --help | sed -n '1,3p' 1>> 1.txt
+vgremove --help | sed -n '1,3p' 1>> 1.txt
+vgrename --help | sed -n '1,3p' 1>> 1.txt
+vgs --help | sed -n '1,3p' 1>> 1.txt
+vgscan --help | sed -n '1,3p' 1>> 1.txt
+vgsplit --help | sed -n '1,3p' 1>> 1.txt
+vi --help | sed -n '1,3p' 1>> 1.txt
+view --help | sed -n '1,3p' 1>> 1.txt
+viewres --help | sed -n '1,3p' 1>> 1.txt
+vigpg --help | sed -n '1,3p' 1>> 1.txt
+vigr --help | sed -n '1,3p' 1>> 1.txt
+vim --help | sed -n '1,3p' 1>> 1.txt
+vim.basic --help | sed -n '1,3p' 1>> 1.txt
+vim.tiny --help | sed -n '1,3p' 1>> 1.txt
+vimdiff --help | sed -n '1,3p' 1>> 1.txt
+vimtutor --help | sed -n '1,3p' 1>> 1.txt
+vipw --help | sed -n '1,3p' 1>> 1.txt
+visudo --help | sed -n '1,3p' 1>> 1.txt
+vmhgfs-fuse --help | sed -n '1,3p' 1>> 1.txt
+vmstat --help | sed -n '1,3p' 1>> 1.txt
+vm-support --help | sed -n '1,3p' 1>> 1.txt
+vmtoolsd --help | sed -n '1,3p' 1>> 1.txt
+vmware-checkvm --help | sed -n '1,3p' 1>> 1.txt
+vmware-hgfsclient --help | sed -n '1,3p' 1>> 1.txt
+vmware-namespace-cmd --help | sed -n '1,3p' 1>> 1.txt
+vmware-rpctool --help | sed -n '1,3p' 1>> 1.txt
+vmware-toolbox-cmd --help | sed -n '1,3p' 1>> 1.txt
+vmware-vgauth-cmd --help | sed -n '1,3p' 1>> 1.txt
+vmware-vgauth-smoketest --help | sed -n '1,3p' 1>> 1.txt
+vmware-vmblock-fuse --help | sed -n '1,3p' 1>> 1.txt
+vmware-xferlogs --help | sed -n '1,3p' 1>> 1.txt
+vpddecode --help | sed -n '1,3p' 1>> 1.txt
+w --help | sed -n '1,3p' 1>> 1.txt
+w.procps --help | sed -n '1,3p' 1>> 1.txt
+wall --help | sed -n '1,3p' 1>> 1.txt
+watch --help | sed -n '1,3p' 1>> 1.txt
+watchgnupg --help | sed -n '1,3p' 1>> 1.txt
+wc --help | sed -n '1,3p' 1>> 1.txt
+wdctl --help | sed -n '1,3p' 1>> 1.txt
+wget --help | sed -n '1,3p' 1>> 1.txt
+whatis --help | sed -n '1,3p' 1>> 1.txt
+whereis --help | sed -n '1,3p' 1>> 1.txt
+which --help | sed -n '1,3p' 1>> 1.txt
+whiptail --help | sed -n '1,3p' 1>> 1.txt
+who --help | sed -n '1,3p' 1>> 1.txt
+whoami --help | sed -n '1,3p' 1>> 1.txt
+wifi-status --help | sed -n '1,3p' 1>> 1.txt
+wipefs --help | sed -n '1,3p' 1>> 1.txt
+write --help | sed -n '1,3p' 1>> 1.txt
+write.ul --help | sed -n '1,3p' 1>> 1.txt
+wslact --help | sed -n '1,3p' 1>> 1.txt
+wslfetch --help | sed -n '1,3p' 1>> 1.txt
+wslpath --help | sed -n '1,3p' 1>> 1.txt
+wslsys --help | sed -n '1,3p' 1>> 1.txt
+wslupath --help | sed -n '1,3p' 1>> 1.txt
+wslusc --help | sed -n '1,3p' 1>> 1.txt
+wslvar --help | sed -n '1,3p' 1>> 1.txt
+wslview --help | sed -n '1,3p' 1>> 1.txt
+www-browser --help | sed -n '1,3p' 1>> 1.txt
+X11 --help | sed -n '1,3p' 1>> 1.txt
+x86_64 --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-addr2line --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-ar --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-as --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-c++filt --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-dwp --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-elfedit --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-gold --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-gprof --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-ld --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-ld.bfd --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-ld.gold --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-nm --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-objcopy --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-objdump --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-ranlib --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-readelf --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-size --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-strings --help | sed -n '1,3p' 1>> 1.txt
+x86_64-linux-gnu-strip --help | sed -n '1,3p' 1>> 1.txt
+xargs --help | sed -n '1,3p' 1>> 1.txt
+xauth --help | sed -n '1,3p' 1>> 1.txt
+xdg-user-dir --help | sed -n '1,3p' 1>> 1.txt
+xdg-user-dirs-update --help | sed -n '1,3p' 1>> 1.txt
+xdpyinfo --help | sed -n '1,3p' 1>> 1.txt
+xdriinfo --help | sed -n '1,3p' 1>> 1.txt
+xev --help | sed -n '1,3p' 1>> 1.txt
+xfd --help | sed -n '1,3p' 1>> 1.txt
+xfontsel --help | sed -n '1,3p' 1>> 1.txt
+xfs_admin --help | sed -n '1,3p' 1>> 1.txt
+xfs_bmap --help | sed -n '1,3p' 1>> 1.txt
+xfs_copy --help | sed -n '1,3p' 1>> 1.txt
+xfs_db --help | sed -n '1,3p' 1>> 1.txt
+xfs_estimate --help | sed -n '1,3p' 1>> 1.txt
+xfs_freeze --help | sed -n '1,3p' 1>> 1.txt
+xfs_fsr --help | sed -n '1,3p' 1>> 1.txt
+xfs_growfs --help | sed -n '1,3p' 1>> 1.txt
+xfs_info --help | sed -n '1,3p' 1>> 1.txt
+xfs_io --help | sed -n '1,3p' 1>> 1.txt
+xfs_logprint --help | sed -n '1,3p' 1>> 1.txt
+xfs_mdrestore --help | sed -n '1,3p' 1>> 1.txt
+xfs_metadump --help | sed -n '1,3p' 1>> 1.txt
+xfs_mkfile --help | sed -n '1,3p' 1>> 1.txt
+xfs_ncheck --help | sed -n '1,3p' 1>> 1.txt
+xfs_quota --help | sed -n '1,3p' 1>> 1.txt
+xfs_repair --help | sed -n '1,3p' 1>> 1.txt
+xfs_rtcp --help | sed -n '1,3p' 1>> 1.txt
+xfs_scrub --help | sed -n '1,3p' 1>> 1.txt
+xfs_scrub_all --help | sed -n '1,3p' 1>> 1.txt
+xfs_spaceman --help | sed -n '1,3p' 1>> 1.txt
+xkill --help | sed -n '1,3p' 1>> 1.txt
+xlsatoms --help | sed -n '1,3p' 1>> 1.txt
+xlsclients --help | sed -n '1,3p' 1>> 1.txt
+xlsfonts --help | sed -n '1,3p' 1>> 1.txt
+xmessage --help | sed -n '1,3p' 1>> 1.txt
+xonsh --help | sed -n '1,3p' 1>> 1.txt
+xprop --help | sed -n '1,3p' 1>> 1.txt
+xsubpp --help | sed -n '1,3p' 1>> 1.txt
+xtables-legacy-multi --help | sed -n '1,3p' 1>> 1.txt
+xtables-monitor --help | sed -n '1,3p' 1>> 1.txt
+xtables-nft-multi --help | sed -n '1,3p' 1>> 1.txt
+xvinfo --help | sed -n '1,3p' 1>> 1.txt
+xwininfo --help | sed -n '1,3p' 1>> 1.txt
+x-www-browser --help | sed -n '1,3p' 1>> 1.txt
+xxd --help | sed -n '1,3p' 1>> 1.txt
+xz --help | sed -n '1,3p' 1>> 1.txt
+xzcat --help | sed -n '1,3p' 1>> 1.txt
+xzcmp --help | sed -n '1,3p' 1>> 1.txt
+xzdiff --help | sed -n '1,3p' 1>> 1.txt
+xzegrep --help | sed -n '1,3p' 1>> 1.txt
+xzfgrep --help | sed -n '1,3p' 1>> 1.txt
+xzgrep --help | sed -n '1,3p' 1>> 1.txt
+xzless --help | sed -n '1,3p' 1>> 1.txt
+xzmore --help | sed -n '1,3p' 1>> 1.txt
+yes --help | sed -n '1,3p' 1>> 1.txt
+ypdomainname --help | sed -n '1,3p' 1>> 1.txt
+zcat --help | sed -n '1,3p' 1>> 1.txt
+zcmp --help | sed -n '1,3p' 1>> 1.txt
+zdiff --help | sed -n '1,3p' 1>> 1.txt
+zdump --help | sed -n '1,3p' 1>> 1.txt
+zegrep --help | sed -n '1,3p' 1>> 1.txt
+zerofree --help | sed -n '1,3p' 1>> 1.txt
+zfgrep --help | sed -n '1,3p' 1>> 1.txt
+zforce --help | sed -n '1,3p' 1>> 1.txt
+zgrep --help | sed -n '1,3p' 1>> 1.txt
+zic --help | sed -n '1,3p' 1>> 1.txt
+zipdetails --help | sed -n '1,3p' 1>> 1.txt
+zless --help | sed -n '1,3p' 1>> 1.txt
+zmore --help | sed -n '1,3p' 1>> 1.txt
+znew --help | sed -n '1,3p' 1>> 1.txt
+zramctl --help | sed -n '1,3p' 1>> 1.txt
+```
+
+## 获得的系统提示，应该安装或使用的命令如下：
+
+```log
+To install addgnupghome use: swupd bundle-add gnupg
+To install bashbug use: swupd bundle-add shells
+To install bc use: swupd bundle-add bc
+To install bcache-super-show use: swupd bundle-add bcache-tools
+To install blkdeactivate use: swupd bundle-add boot-encrypted
+To install boltctl use: swupd bundle-add desktop
+To install byobu-ctrl-a use: swupd bundle-add byobu
+To install byobu-layout use: swupd bundle-add byobu
+To install byobu-prompt use: swupd bundle-add byobu
+To install byobu-quiet use: swupd bundle-add byobu
+To install byobu-reconnect-sockets use: swupd bundle-add byobu
+To install byobu-screen use: swupd bundle-add byobu
+To install byobu-select-backend use: swupd bundle-add byobu
+To install byobu-select-session use: swupd bundle-add byobu
+To install byobu-status use: swupd bundle-add byobu
+To install byobu-status-detail use: swupd bundle-add byobu
+To install c++filt use: swupd bundle-add binutils
+To install cache_check use: swupd bundle-add storage-utils
+To install cache_dump use: swupd bundle-add storage-utils
+To install cache_repair use: swupd bundle-add storage-utils
+To install cgdisk use: swupd bundle-add bootloader
+To install col1 use: swupd bundle-add byobu
+To install crontab use: swupd bundle-add cronie
+To install cryptsetup use: swupd bundle-add boot-encrypted
+To install cryptsetup-reencrypt use: swupd bundle-add boot-encrypted
+To install ctail use: swupd bundle-add byobu
+To install desktop-file-edit use: swupd bundle-add desktop
+To install dirmngr use: swupd bundle-add gnupg
+To install dumpe2fs use: swupd bundle-add storage-utils
+To install dwp use: swupd bundle-add binutils
+To install e2image use: swupd bundle-add storage-utils
+To install e2undo use: swupd bundle-add storage-utils
+To install envsubst use: swupd bundle-add c-basic
+To install filefrag use: swupd bundle-add storage-utils
+To install fixparts use: swupd bundle-add bootloader
+To install fsadm use: swupd bundle-add boot-encrypted
+To install fsck.fat use: swupd bundle-add dosfstools
+To install fsck.msdos use: swupd bundle-add dosfstools
+To install fsck.vfat use: swupd bundle-add dosfstools
+To install fsck.xfs use: swupd bundle-add xfsprogs
+To install fusermount use: swupd bundle-add fuse
+To install fwupdate use: swupd bundle-add fwupdate
+To install fwupdmgr use: swupd bundle-add firmware-update
+To install gdisk use: swupd bundle-add bootloader
+To install gpgconf use: swupd bundle-add gnupg
+To install gpg-connect-agent use: swupd bundle-add gnupg
+To install info use: swupd bundle-add texinfo
+To install integritysetup use: swupd bundle-add boot-encrypted
+To install irqbalance-ui use: swupd bundle-add hardware-uefi
+To install iscsi_discovery use: swupd bundle-add storage-utils
+To install iscsiadm use: swupd bundle-add storage-utils
+To install iscsi-iname use: swupd bundle-add storage-utils
+To install jsondiff use: swupd bundle-add diffoscope
+To install jsonpatch use: swupd bundle-add ceph
+To install jsonpointer use: swupd bundle-add jupyter
+To install kpartx use: swupd bundle-add storage-utils
+To install logrotate use: swupd bundle-add logrotate
+To install ltrace use: swupd bundle-add dev-utils
+To install lvchange use: swupd bundle-add boot-encrypted
+To install lvconvert use: swupd bundle-add boot-encrypted
+To install lvcreate use: swupd bundle-add boot-encrypted
+To install lvdisplay use: swupd bundle-add boot-encrypted
+To install lvextend use: swupd bundle-add boot-encrypted
+To install lvm use: swupd bundle-add boot-encrypted
+To install lvmconfig use: swupd bundle-add boot-encrypted
+To install lvmdiskscan use: swupd bundle-add boot-encrypted
+To install lvmdump use: swupd bundle-add boot-encrypted
+To install lvmsadc use: swupd bundle-add boot-encrypted
+To install lvmsar use: swupd bundle-add boot-encrypted
+To install lvreduce use: swupd bundle-add boot-encrypted
+To install lvremove use: swupd bundle-add boot-encrypted
+To install lvrename use: swupd bundle-add boot-encrypted
+To install lz4 use: swupd bundle-add lz4
+To install lz4c use: swupd bundle-add lz4
+To install lz4cat use: swupd bundle-add lz4
+To install make-bcache use: swupd bundle-add bcache-tools
+To install mdadm use: swupd bundle-add storage-utils
+To install mkfs.ext3 use: swupd bundle-add storage-utils
+To install mkfs.ext4 use: swupd bundle-add storage-utils
+To install mkfs.ntfs use: swupd bundle-add storage-utils
+To install mkfs.xfs use: swupd bundle-add xfsprogs
+To install mount.ntfs-3g use: swupd bundle-add storage-utils
+To install mtr-packet use: swupd bundle-add mtr
+To install multipath use: swupd bundle-add storage-utils
+To install ngettext use: swupd bundle-add c-basic
+To install bashbug use: swupd bundle-add shells
+To install bc use: swupd bundle-add bc
+To install bcache-super-show use: swupd bundle-add bcache-tools
+To install blkdeactivate use: swupd bundle-add boot-encrypted
+To install boltctl use: swupd bundle-add desktop
+To install byobu-ctrl-a use: swupd bundle-add byobu
+To install byobu-layout use: swupd bundle-add byobu
+To install byobu-prompt use: swupd bundle-add byobu
+To install byobu-quiet use: swupd bundle-add byobu
+To install byobu-reconnect-sockets use: swupd bundle-add byobu
+To install byobu-screen use: swupd bundle-add byobu
+To install byobu-select-backend use: swupd bundle-add byobu
+To install byobu-select-session use: swupd bundle-add byobu
+To install byobu-status use: swupd bundle-add byobu
+To install byobu-status-detail use: swupd bundle-add byobu
+To install c++filt use: swupd bundle-add binutils
+To install cache_check use: swupd bundle-add storage-utils
+To install cache_dump use: swupd bundle-add storage-utils
+To install cache_repair use: swupd bundle-add storage-utils
+To install bashbug use: swupd bundle-add shells
+To install bc use: swupd bundle-add bc
+To install bcache-super-show use: swupd bundle-add bcache-tools
+To install blkdeactivate use: swupd bundle-add boot-encrypted
+To install boltctl use: swupd bundle-add desktop
+To install byobu-ctrl-a use: swupd bundle-add byobu
+To install byobu-layout use: swupd bundle-add byobu
+To install byobu-prompt use: swupd bundle-add byobu
+To install byobu-quiet use: swupd bundle-add byobu
+To install byobu-reconnect-sockets use: swupd bundle-add byobu
+To install byobu-screen use: swupd bundle-add byobu
+To install byobu-select-backend use: swupd bundle-add byobu
+To install byobu-select-session use: swupd bundle-add byobu
+To install byobu-status use: swupd bundle-add byobu
+To install byobu-status-detail use: swupd bundle-add byobu
+To install c++filt use: swupd bundle-add binutils
+To install cache_check use: swupd bundle-add storage-utils
+To install cache_dump use: swupd bundle-add storage-utils
+To install cache_repair use: swupd bundle-add storage-utils
+To install bashbug use: swupd bundle-add shells
+To install bc use: swupd bundle-add bc
+To install bcache-super-show use: swupd bundle-add bcache-tools
+To install blkdeactivate use: swupd bundle-add boot-encrypted
+To install boltctl use: swupd bundle-add desktop
+To install byobu-layout use: swupd bundle-add byobu
+To install byobu-prompt use: swupd bundle-add byobu
+To install byobu-quiet use: swupd bundle-add byobu
+To install byobu-reconnect-sockets use: swupd bundle-add byobu
+To install byobu-screen use: swupd bundle-add byobu
+To install byobu-select-backend use: swupd bundle-add byobu
+To install byobu-select-session use: swupd bundle-add byobu
+To install byobu-status-detail use: swupd bundle-add byobu
+To install c++filt use: swupd bundle-add binutils
+To install cache_check use: swupd bundle-add storage-utils
+To install cache_dump use: swupd bundle-add storage-utils
+To install cache_repair use: swupd bundle-add storage-utils
+To install cgdisk use: swupd bundle-add bootloader
+To install col1 use: swupd bundle-add byobu
+To install crontab use: swupd bundle-add cronie
+To install cryptsetup use: swupd bundle-add boot-encrypted
+To install cryptsetup-reencrypt use: swupd bundle-add boot-encrypted
+To install ctail use: swupd bundle-add byobu
+To install desktop-file-edit use: swupd bundle-add desktop
+To install dirmngr use: swupd bundle-add gnupg
+To install bashbug use: swupd bundle-add shells
+To install bc use: swupd bundle-add bc
+To install bcache-super-show use: swupd bundle-add bcache-tools
+To install blkdeactivate use: swupd bundle-add boot-encrypted
+To install boltctl use: swupd bundle-add desktop
+To install byobu-ctrl-a use: swupd bundle-add byobu
+To install byobu-layout use: swupd bundle-add byobu
+To install byobu-prompt use: swupd bundle-add byobu
+To install byobu-quiet use: swupd bundle-add byobu
+To install byobu-reconnect-sockets use: swupd bundle-add byobu
+To install byobu-screen use: swupd bundle-add byobu
+To install byobu-select-backend use: swupd bundle-add byobu
+To install byobu-select-session use: swupd bundle-add byobu
+To install byobu-status use: swupd bundle-add byobu
+To install byobu-status-detail use: swupd bundle-add byobu
+To install c++filt use: swupd bundle-add binutils
+To install cache_check use: swupd bundle-add storage-utils
+To install cache_dump use: swupd bundle-add storage-utils
+To install cache_repair use: swupd bundle-add storage-utils
+To install cgdisk use: swupd bundle-add bootloader
+To install col1 use: swupd bundle-add byobu
+To install crontab use: swupd bundle-add cronie
+To install cryptsetup use: swupd bundle-add boot-encrypted
+To install cryptsetup-reencrypt use: swupd bundle-add boot-encrypted
+To install ctail use: swupd bundle-add byobu
+To install desktop-file-edit use: swupd bundle-add desktop
+To install dirmngr use: swupd bundle-add gnupg
+To install dumpe2fs use: swupd bundle-add storage-utils
+To install dwp use: swupd bundle-add binutils
+To install e2image use: swupd bundle-add storage-utils
+To install e2undo use: swupd bundle-add storage-utils
+To install envsubst use: swupd bundle-add c-basic
+To install filefrag use: swupd bundle-add storage-utils
+To install fixparts use: swupd bundle-add bootloader
+To install fsadm use: swupd bundle-add boot-encrypted
+To install fsck.fat use: swupd bundle-add dosfstools
+To install fsck.msdos use: swupd bundle-add dosfstools
+To install fsck.vfat use: swupd bundle-add dosfstools
+To install fsck.xfs use: swupd bundle-add xfsprogs
+To install fusermount use: swupd bundle-add fuse
+To install fwupdate use: swupd bundle-add fwupdate
+To install fwupdmgr use: swupd bundle-add firmware-update
+To install gdisk use: swupd bundle-add bootloader
+To install gpgconf use: swupd bundle-add gnupg
+To install gpg-connect-agent use: swupd bundle-add gnupg
+To install pacat use: swupd bundle-add pulseaudio
+To install pacmd use: swupd bundle-add pulseaudio
+To install pf2afm use: swupd bundle-add ghostscript
+To install pfbtopfa use: swupd bundle-add ghostscript
+To install pinentry use: swupd bundle-add gnupg
+To install pinentry-curses use: swupd bundle-add gnupg
+To install pkttyagent use: swupd bundle-add polkit
+To install printafm use: swupd bundle-add ghostscript
+To install pvresize use: swupd bundle-add boot-encrypted
+To install ranlib use: swupd bundle-add binutils
+To install red use: swupd bundle-add editors
+To place the cursor on a specific line of a file, put the line number with
+To install rsyslogd use: swupd bundle-add rsyslog
+To install rview use: swupd bundle-add vim
+To install sbsiglist use: swupd bundle-add os-clr-on-clr
+To install sbsign use: swupd bundle-add os-clr-on-clr
+To install sbvarsign use: swupd bundle-add os-clr-on-clr
+To install scsi_start use: swupd bundle-add sysadmin-basic-dev
+To install scsi_temperature use: swupd bundle-add sysadmin-basic-dev
+To install sg_opcodes use: swupd bundle-add sysadmin-basic-dev
+To install sg_persist use: swupd bundle-add sysadmin-basic-dev
+To install sg_rbuf use: swupd bundle-add sysadmin-basic-dev
+To install sg_rdac use: swupd bundle-add sysadmin-basic-dev
+To install sg_read_block_limits use: swupd bundle-add sysadmin-basic-dev
+To install sg_read_buffer use: swupd bundle-add sysadmin-basic-dev
+To install sg_read_long use: swupd bundle-add sysadmin-basic-dev
+To install sg_readcap use: swupd bundle-add sysadmin-basic-dev
+To install sg_reassign use: swupd bundle-add sysadmin-basic-dev
+To install sg_referrals use: swupd bundle-add sysadmin-basic-dev
+To install sg_reset use: swupd bundle-add sysadmin-basic-dev
+To install sg_reset_wp use: swupd bundle-add sysadmin-basic-dev
+To install sg_rmsn use: swupd bundle-add sysadmin-basic-dev
+To install sg_rtpg use: swupd bundle-add sysadmin-basic-dev
+To install sg_safte use: swupd bundle-add sysadmin-basic-dev
+To install sg_sanitize use: swupd bundle-add sysadmin-basic-dev
+To install sg_sat_identify use: swupd bundle-add sysadmin-basic-dev
+To install sg_sat_phy_event use: swupd bundle-add sysadmin-basic-dev
+To install sg_sat_read_gplog use: swupd bundle-add sysadmin-basic-dev
+To install sg_sat_set_features use: swupd bundle-add sysadmin-basic-dev
+To install sg_scan use: swupd bundle-add sysadmin-basic-dev
+To install sg_seek use: swupd bundle-add sysadmin-basic-dev
+To install sg_senddiag use: swupd bundle-add sysadmin-basic-dev
+To install sg_ses use: swupd bundle-add sysadmin-basic-dev
+To install sg_ses_microcode use: swupd bundle-add sysadmin-basic-dev
+To install sg_start use: swupd bundle-add sysadmin-basic-dev
+To install sg_stpg use: swupd bundle-add sysadmin-basic-dev
+To install sg_stream_ctl use: swupd bundle-add sysadmin-basic-dev
+To install sg_sync use: swupd bundle-add sysadmin-basic-dev
+To install sg_test_rwbuf use: swupd bundle-add sysadmin-basic-dev
+To install sg_timestamp use: swupd bundle-add sysadmin-basic-dev
+To install sg_turs use: swupd bundle-add sysadmin-basic-dev
+To install sg_unmap use: swupd bundle-add sysadmin-basic-dev
+To install sg_verify use: swupd bundle-add sysadmin-basic-dev
+To install sg_vpd use: swupd bundle-add sysadmin-basic-dev
+To install sg_wr_mode use: swupd bundle-add sysadmin-basic-dev
+To install sg_write_buffer use: swupd bundle-add storage-utils
+To install sg_write_long use: swupd bundle-add sysadmin-basic-dev
+To install sg_write_same use: swupd bundle-add sysadmin-basic-dev
+To install sg_write_verify use: swupd bundle-add sysadmin-basic-dev
+To install sg_write_x use: swupd bundle-add sysadmin-basic-dev
+To install sg_xcopy use: swupd bundle-add sysadmin-basic-dev
+To install sg_zone use: swupd bundle-add sysadmin-basic-dev
+To install sgdisk use: swupd bundle-add bootloader
+To install sginfo use: swupd bundle-add sysadmin-basic-dev
+To install sgm_dd use: swupd bundle-add sysadmin-basic-dev
+To install sgp_dd use: swupd bundle-add sysadmin-basic-dev
+To install size use: swupd bundle-add binutils
+To install sosreport use: swupd bundle-add cockpit
+To install sshd use: swupd bundle-add openssh-server
+To install strings use: swupd bundle-add binutils
+To install strip use: swupd bundle-add binutils
+To install systemd-hwdb use: swupd bundle-add polkit
+To install telnet use: swupd bundle-add netkit-telnet
+To install thin_check use: swupd bundle-add storage-utils
+To install thin_delta use: swupd bundle-add storage-utils
+To install thin_dump use: swupd bundle-add storage-utils
+To install thin_ls use: swupd bundle-add storage-utils
+To install thin_metadata_size use: swupd bundle-add storage-utils
+To install thin_repair use: swupd bundle-add storage-utils
+To install thin_restore use: swupd bundle-add storage-utils
+To install thin_rmap use: swupd bundle-add storage-utils
+To install thin_trim use: swupd bundle-add storage-utils
+To install udisksctl use: swupd bundle-add sysadmin-remote
+To install umount.udisks2 use: swupd bundle-add sysadmin-remote
+To install unlz4 use: swupd bundle-add lz4
+To install unsquashfs use: swupd bundle-add storage-utils
+To install update-desktop-database use: swupd bundle-add desktop
+To install update-mime-database use: swupd bundle-add firmware-update
+To install veritysetup use: swupd bundle-add boot-encrypted
+To install vgcfgbackup use: swupd bundle-add boot-encrypted
+To install vgcfgrestore use: swupd bundle-add boot-encrypted
+To install vgchange use: swupd bundle-add boot-encrypted
+To install vgck use: swupd bundle-add boot-encrypted
+To install vgconvert use: swupd bundle-add boot-encrypted
+To install vgcreate use: swupd bundle-add boot-encrypted
+To install vgdisplay use: swupd bundle-add boot-encrypted
+To install vgexport use: swupd bundle-add boot-encrypted
+To install vgextend use: swupd bundle-add boot-encrypted
+To install vgimport use: swupd bundle-add boot-encrypted
+To install vgimportclone use: swupd bundle-add boot-encrypted
+To install vgmerge use: swupd bundle-add boot-encrypted
+To install vgmknodes use: swupd bundle-add boot-encrypted
+To install vgreduce use: swupd bundle-add boot-encrypted
+To install vgremove use: swupd bundle-add boot-encrypted
+To install vgrename use: swupd bundle-add boot-encrypted
+To install vgs use: swupd bundle-add boot-encrypted
+To install vgscan use: swupd bundle-add boot-encrypted
+To install vgsplit use: swupd bundle-add boot-encrypted
+To install vi use: swupd bundle-add vim-minimal
+To install view use: swupd bundle-add vim
+To install vigpg use: swupd bundle-add byobu
+To install vim use: swupd bundle-add vim
+To install vimdiff use: swupd bundle-add vim
+To install vmhgfs-fuse use: swupd bundle-add os-cloudguest-vmware
+To install vm-support use: swupd bundle-add os-cloudguest-vmware
+To install vmtoolsd use: swupd bundle-add os-cloudguest-vmware
+To install vmware-checkvm use: swupd bundle-add os-cloudguest-vmware
+To install vmware-hgfsclient use: swupd bundle-add os-cloudguest-vmware
+To install vmware-namespace-cmd use: swupd bundle-add os-cloudguest-vmware
+To install vmware-rpctool use: swupd bundle-add os-cloudguest-vmware
+To install vmware-toolbox-cmd use: swupd bundle-add os-cloudguest-vmware
+To install vmware-vmblock-fuse use: swupd bundle-add os-cloudguest-vmware
+To install vmware-xferlogs use: swupd bundle-add os-cloudguest-vmware
+To install watchgnupg use: swupd bundle-add gnupg
+To install whiptail use: swupd bundle-add byobu
+To install wifi-status use: swupd bundle-add byobu
+To install xauth use: swupd bundle-add x11-tools
+To install xdg-user-dir use: swupd bundle-add games
+To install xdg-user-dirs-update use: swupd bundle-add games
+To install xdpyinfo use: swupd bundle-add x11-tools
+To install xfontsel use: swupd bundle-add x11-tools
+To install xfs_admin use: swupd bundle-add xfsprogs
+To install xfs_bmap use: swupd bundle-add xfsprogs
+To install xfs_copy use: swupd bundle-add xfsprogs
+To install xfs_db use: swupd bundle-add xfsprogs
+To install xfs_estimate use: swupd bundle-add xfsprogs
+To install xfs_freeze use: swupd bundle-add xfsprogs
+To install xfs_fsr use: swupd bundle-add xfsprogs
+To install xfs_growfs use: swupd bundle-add xfsprogs
+To install xfs_info use: swupd bundle-add xfsprogs
+To install xfs_io use: swupd bundle-add xfsprogs
+To install xfs_logprint use: swupd bundle-add xfsprogs
+To install xfs_mdrestore use: swupd bundle-add xfsprogs
+To install xfs_metadump use: swupd bundle-add xfsprogs
+To install xfs_mkfile use: swupd bundle-add xfsprogs
+To install xfs_ncheck use: swupd bundle-add xfsprogs
+To install xfs_quota use: swupd bundle-add xfsprogs
+To install xfs_repair use: swupd bundle-add xfsprogs
+To install xfs_rtcp use: swupd bundle-add xfsprogs
+To install xfs_scrub use: swupd bundle-add xfsprogs
+To install xfs_spaceman use: swupd bundle-add xfsprogs
+To install xkill use: swupd bundle-add x11-tools
+To install xprop use: swupd bundle-add x11-tools
+To install xwininfo use: swupd bundle-add x11-tools
+To install xxd use: swupd bundle-add vim
+```

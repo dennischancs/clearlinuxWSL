@@ -69,7 +69,7 @@ RUN swupd update --no-boot-update $swupd_args \
         rsyslog \
         shells \
         storage-utils \
-        sysadmin-basic-dev \   #include git
+        sysadmin-basic-dev \
         sysadmin-remote \
         texinfo \
         vim \
