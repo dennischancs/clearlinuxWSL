@@ -50,7 +50,7 @@ COPY .xonshrc /root/
 
 # set xonsh as default
 COPY passwd /etc/
-RUM chmod 644 /etc/passwd \
+RUN chmod 644 /etc/passwd \
     && cp /etc/passwd /etc/passwd- \
     && chsh -s /usr/bin/xonsh
 
