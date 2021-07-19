@@ -33,6 +33,7 @@ RUN swupd update --no-boot-update $swupd_args \
     && rm -rf /var/lib/swupd/* \
     && rm -rf /tmp/*
 
+# add xonsh
 RUN pip install --no-cache-dir xonsh \
     && /usr/bin/python3 -m pip install --no-cache-dir \
         xontrib-argcomplete \
@@ -45,7 +46,12 @@ RUN pip install --no-cache-dir xonsh \
         xontrib-ssh-agent \
         xontrib-z \
     && rm -rf /tmp/*
-
 COPY .xonshrc /root/
+
+# set xonsh as default
+COPY passwd /etc/
+RUM chmod 644 /etc/passwd \
+    && cp /etc/passwd /etc/passwd- \
+    && chsh -s /usr/bin/xonsh
 
 CMD ["xonsh"]
