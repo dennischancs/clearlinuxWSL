@@ -4,10 +4,9 @@ FROM clearlinux/python:latest
 
 ARG swupd_args
 
-# Clear Linux的WSL2版
+# docker-base缺少的，补充iso默认安装的bundles
 RUN swupd update --no-boot-update $swupd_args \
-    # docker-base缺少的，补充iso默认安装的bundles
-       # wsl没必要安装的 acpica-unix2 kbd kernel-install kernel-native linux-firmware linux-firmware-extras linux-firmware-wifi powertop
+    # wsl没必要安装：acpica-unix2 kbd kernel-install kernel-native linux-firmware linux-firmware-extras linux-firmware-wifi powertop
     && swupd bundle-add NetworkManager \
         aspell \
         curl \
@@ -36,11 +35,13 @@ RUN swupd update --no-boot-update $swupd_args \
         tzdata \
         unzip \
         which \
-        wpa_supplicant \
         xz \
         zstd \
-    # clear缺少的，补充ubuntu wsl版默认的包
-    && swupd bundle-add bc \
+        wget net-tools network-basic \
+    && rm -rf /var/lib/swupd/*
+
+# clear缺少的，补充ubuntu wsl版默认的包
+RUN swupd bundle-add bc \
         bcache-tools \
         binutils \
         boot-encrypted \
@@ -76,8 +77,6 @@ RUN swupd update --no-boot-update $swupd_args \
         vim-minimal \
         x11-tools \
         xfsprogs \
-        wget net-tools network-basic \
-        neofetch \
     && rm -rf /var/lib/swupd/*
 
 CMD ["bash"]

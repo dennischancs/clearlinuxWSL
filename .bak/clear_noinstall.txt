@@ -43,6 +43,7 @@ swupd update --no-boot-update \
     shells \
     storage-utils \
     sysadmin-basic-dev \   # 包含了git
+    sysadmin-basic \       # 包含了neofetch
     sysadmin-remote \
     texinfo \
     vim \
@@ -50,7 +51,6 @@ swupd update --no-boot-update \
     x11-tools \
     xfsprogs \
     wget net-tools network-basic \
-    neofetch
 && rm -rf /var/lib/swupd/*
 ```
 
