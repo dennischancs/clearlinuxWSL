@@ -33,8 +33,7 @@ RUN swupd update --no-boot-update $swupd_args \
     && rm -rf /var/lib/swupd/* \
     && rm -rf /tmp/*
 
-RUN pip install --quiet --no-cache-dir xonsh \
-    && chsh -s /usr/local/bin/xonsh \
+RUN pip install --no-cache-dir xonsh \
     && /usr/bin/python3 -m pip install --no-cache-dir \
         xontrib-argcomplete \
         xonsh-autoxsh \
