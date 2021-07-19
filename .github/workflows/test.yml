@@ -22,7 +22,8 @@ jobs:
     - name: Set up Docker Build
       run: | 
         sudo apt-get purge moby-engine moby-cli
-        sudo apt-get install containerd docker.io bats -f
+        sudo apt-get update
+        sudo apt-get install containerd runc docker.io bats -f
         sudo modprobe -r overlay
         sudo modprobe overlay redirect_dir=off
         sudo systemctl restart docker
