@@ -42,7 +42,7 @@ pip install --no-cache-dir xonsh \
         xontrib-pipeliner \
         xontrib-pyenv \
         xontrib-ssh-agent \
-        xontrib-z \
+        xontrib-z
 ```
 
 
@@ -51,4 +51,4 @@ pip install --no-cache-dir xonsh \
 1. 替换默认的shell
 > 很重要的一点，要有`/etc/passwd`文件，参考Ubuntu WSL 以及 从iso安装clear linux时设置的用户名。【`/etc/passwd-`是备份文件】
 
-2. clear linux 的[docker image](https://github.com/clearlinux/docker-brew-clearlinux/blob/919de92f3ea61be7b1d63e04c401f2bac86f6a78/Dockerfile)对密码有效期设置过短，因此要用`chage -M 99999 root`调整为不过期。
+2. clear linux 的[docker image](https://github.com/clearlinux/docker-brew-clearlinux/blob/919de92f3ea61be7b1d63e04c401f2bac86f6a78/Dockerfile)对密码有效期过短，因此要用`chage -M 99999 root`调整为不过期。
