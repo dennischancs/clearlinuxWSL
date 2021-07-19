@@ -4,7 +4,7 @@ FROM clearlinux/python:latest
 
 ARG swupd_args
 
-# docker-base缺少的，补充iso默认安装的bundles
+# 补充bundles，参考补充ubuntu wsl版默认的包
 RUN swupd update --no-boot-update $swupd_args \
     # wsl没必要安装：acpica-unix2 kbd kernel-install kernel-native linux-firmware linux-firmware-extras linux-firmware-wifi powertop
     && swupd bundle-add NetworkManager \
@@ -24,59 +24,52 @@ RUN swupd update --no-boot-update $swupd_args \
         openssh-client openssh-server \
         parallel \
         patch \
-        perl-basic \
         procps-ng \
         qemu-guest-additions \
         socat \
         strace \
         sudo \
         sysadmin-basic \
+        sysadmin-basic-dev \
         tmux \
         tzdata \
         unzip \
         which \
         xz \
         zstd \
-        wget net-tools network-basic \
-    && rm -rf /var/lib/swupd/*
-
-# clear缺少的，补充ubuntu wsl版默认的包
-RUN swupd bundle-add bc \
+        wget \
+        net-tools \
+        texinfo \
+        vim \
+        vim-minimal \
+        editors \
+        x11-tools \
+        sysadmin-remote \
         bcache-tools \
-        binutils \
-        boot-encrypted \
         byobu \
-        c-basic \
-        ceph \
-        cockpit \
-        cronie \
-        dev-utils \
         diffoscope \
         dosfstools \
-        editors \
-        firmware-update \
         fuse \
-        fwupdate \
         ghostscript \
         gnupg \
         logrotate \
         lz4 \
         mtr \
         netkit-telnet \
-        os-cloudguest-vmware \
-        os-clr-on-clr \
-        polkit \
         pulseaudio \
         rsyslog \
         shells \
-        storage-utils \
-        sysadmin-basic-dev \
-        sysadmin-remote \
-        texinfo \
-        vim \
-        vim-minimal \
-        x11-tools \
-        xfsprogs \
+        os-cloudguest-vmware \
+        bc \
+    && rm -rf /var/lib/swupd/*
+
+# clear缺少的，补充ubuntu wsl版默认的包
+RUN swupd bundle-add binutils \
+        ceph \
+        cockpit \
+        cronie \
+        polkit \
+        os-clr-on-clr \
     && rm -rf /var/lib/swupd/*
 
 CMD ["bash"]
