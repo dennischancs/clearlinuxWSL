@@ -1,0 +1,5 @@
+# XONSH WEBCONFIG START
+$PROMPT = '{env_name}{BOLD_GREEN}{user}{RESET}@{hostname}:{BOLD_GREEN}{cwd}{RESET}{branch_color}{curr_branch: {}}{gitstatus: {}} {BOLD_RED}{prompt_end}{RESET} '
+$XONSH_COLOR_STYLE = 'monokai'
+xontrib load abbrevs argcomplete autovox autoxsh coreutils distributed docker_tabcomplete hist_navigator mpl output_search pipeliner pyenv ssh_agent whole_word_jumping z
+# XONSH WEBCONFIG END
