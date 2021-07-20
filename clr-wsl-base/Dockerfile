@@ -67,8 +67,8 @@ RUN chage -M 99999 root \
     && chage -W 7 root \
     && chmod 644 /etc/passwd \
     && cp /etc/passwd /etc/passwd- \
-    && chsh -s $(which xonsh)
+    && chsh -s $(which xonsh) \
     # let `chsh` work for `root` after build
-    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh \
+    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh
 
 CMD ["xonsh"]
