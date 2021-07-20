@@ -51,8 +51,12 @@ COPY .xonshrc /root/
 # set xonsh as default, ubuntu没这么麻烦的问题
 COPY passwd /etc/
 RUN chage -M 99999 root \
+    && chage -m 0 root \
+    && chage -W 7 root \
     && chmod 644 /etc/passwd \
     && cp /etc/passwd /etc/passwd- \
     && chsh -s $(which xonsh)
+    # let `chsh` work for `root` after build
+    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh \
 
 CMD ["xonsh"]
