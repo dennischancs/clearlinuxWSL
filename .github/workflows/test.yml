@@ -10,6 +10,7 @@ jobs:
       matrix:
         node:
          - clr-wsl-base
+         - wsld-s6
     steps:
     - name: Check Out Repo 
       uses: actions/checkout@v1
