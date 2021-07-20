@@ -3,8 +3,7 @@
 set -e
 
 #User params
-# TIMEZONE=${TZ:="UTC"}
-TIMEZONE=${TZ:="CST-8"}
+TIMEZONE=${TZ:="UTC"}
 
 # Set Timezone
 echo "${TIMEZONE}" > /etc/TZ
