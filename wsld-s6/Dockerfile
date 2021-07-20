@@ -48,7 +48,7 @@ RUN apk --update --no-cache add tar \
 COPY daemon.json /etc/docker/
 
 # wsl setting && DNS no 172.28.160.1
-COPY ../general-settings/*.conf /etc/
+COPY ./general-settings/*.conf /etc/
 RUN chattr +i /etc/resolv.conf
 
 # Step2: `service docker start` in alpine
