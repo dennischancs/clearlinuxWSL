@@ -2,7 +2,9 @@
 
 ## wsl setting && DNS no 172.28.160.1
 
-Usage: `COPY ../general-settings /etc/`
+Usage: `COPY <src> /etc/`
+
+> The `<src>` path must be inside the context of the build; you cannot `COPY ../something /something`, because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.
 
 ```config
 #/etc/wsl.conf
