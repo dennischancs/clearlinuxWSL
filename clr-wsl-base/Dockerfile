@@ -57,7 +57,8 @@ RUN rm -f /etc/wsl.conf \
     && rm -f /etc/resolv.conf \
     && echo "# /etc/resolv.conf" > /etc/resolv.conf \
     && echo "nameserver 223.5.5.5" >> /etc/resolv.conf \
-    && echo "nameserver 223.6.6.6" >> /etc/resolv.conf
+    && echo "nameserver 223.6.6.6" >> /etc/resolv.conf \
+    && chattr +i /etc/resolv.conf
 
 # set xonsh as default, ubuntu没这么麻烦的问题
 COPY .xonshrc /root/
