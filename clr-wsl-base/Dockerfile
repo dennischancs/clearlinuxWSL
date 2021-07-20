@@ -8,7 +8,7 @@ ARG swupd_args
 RUN swupd update --no-boot-update $swupd_args \
     && swupd bundle-add python3-basic \
         sysadmin-basic \
-        e2fsprogs e2fsprogs-extras \
+        storage-utils \
         sysadmin-remote \
         editors \
         aspell \
