@@ -30,6 +30,7 @@ RUN swupd update --no-boot-update $swupd_args \
         ceph \
         cronie \
         polkit \
+        rsync \
     && rm -rf /var/lib/swupd/* \
     && rm -rf /tmp/*
 
@@ -45,10 +46,21 @@ RUN pip install --no-cache-dir xonsh \
         xontrib-pyenv \
         xontrib-ssh-agent \
         xontrib-z \
+        xontrib-back2dir \
+        xontrib-sh \
     && rm -rf /tmp/*
-COPY .xonshrc /root/
+
+# wsl setting，DNS no 172.28.160.1
+RUN rm -f /etc/wsl.conf \
+    && echo "[network]" > /etc/wsl.conf \
+    && echo "generateResolvConf = false" >> /etc/wsl.conf \
+    && rm -f /etc/resolv.conf \
+    && echo "# /etc/resolv.conf" > /etc/resolv.conf \
+    && echo "nameserver 223.5.5.5" >> /etc/resolv.conf \
+    && echo "nameserver 223.6.6.6" >> /etc/resolv.conf
 
 # set xonsh as default, ubuntu没这么麻烦的问题
+COPY .xonshrc /root/
 COPY passwd /etc/
 RUN chage -M 99999 root \
     && chage -m 0 root \
