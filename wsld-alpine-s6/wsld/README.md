@@ -1,6 +1,6 @@
 # wsld-alpine-s6
 
-an alpine wsl image for [Rucadi/wsld](https://github.com/Rucadi/wsld), which is smaller and faster than ubuntu wsl image.
+an alpine wsl image supporting for [Rucadi/wsld](https://github.com/Rucadi/wsld), which is smaller and faster than ubuntu wsl image.
 
 
 | images | [alpine](https://gitlab.com/dennischancs/wsld-alpine)  | [ubuntu](https://gitlab.com/ruben.cano96/wsld_image)|
