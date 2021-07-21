@@ -11,14 +11,14 @@ RUN chmod u+x,g+x /usr/local/bin/entrypoint.sh \
     && ln -s /usr/local/bin/entrypoint.sh / # backwards compat
 
 # add s6-overlay && chang timezone(TZ)
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
-    && apk --update --no-cache add wget ca-certificates \
+RUN apk --update --no-cache add wget ca-certificates \
     # add s6-overlay
     && cd /tmp \
     && wget https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz \
     && echo "$S6_OVERLAY_MD5HASH *s6-overlay-amd64.tar.gz" | md5sum -c - \
     && tar xzf s6-overlay-amd64.tar.gz -C / \
     && rm s6-overlay-amd64.tar.gz \
+    && apk del wget \
     && rm ~/.wget-hsts \
     # change TZ
     && echo "export TZ=CST-8" >> /etc/profile \
