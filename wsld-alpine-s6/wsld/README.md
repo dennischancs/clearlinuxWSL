@@ -1,20 +1,3 @@
-# wsld-alpine-s6
-
-an alpine wsl image supporting for [Rucadi/wsld](https://github.com/Rucadi/wsld), which is smaller and faster than ubuntu wsl image.
-
-
-| images | [alpine](https://gitlab.com/dennischancs/wsld-alpine)  | [ubuntu](https://gitlab.com/ruben.cano96/wsld_image)|
-| ------ | ------ | ------ |
-|HDD | 325MB | 1128MB |
-|RAM | 113MB | 144MB |
-
-PS: alpine wsl image `service docker start` use `. /entrypoint.sh` for some special prepare.
-
-USAGE:
-1. [download](./wsld/wsld-x86_64.zip) new `wsld.exe` to replace original executable.
-2. `unzip wsld-x86_64.zip`
-3. in PowerShell `.\wsld.exe -d test -i alpine:latest`
-
 # Welcome to WSLD!
 
 This program was created with the intention of sharing and installing WSL machines more easily! <br>
