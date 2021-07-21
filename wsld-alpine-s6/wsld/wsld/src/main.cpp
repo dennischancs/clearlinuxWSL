@@ -85,10 +85,10 @@ static void uploadWslToDockerhub()
 
 void installWsldImage()
 {
-    auto tarpath = getTempDirPath() /= "wsld.tar";
+    auto tarpath = getTempDirPath() /= "wsld.tar.gz";
     auto installpath = getProgramDataPath("wsld");
     // replace custom alpine wsl image
-    URLDownloadToFile(NULL, L"https://gitlab.com/dennischancs/wsld-alpine-s6/-/raw/main/wsld.tar", tarpath.wstring().c_str(), 0, NULL);
+    URLDownloadToFile(NULL, L"https://gitlab.com/dennischancs/wsld-alpine-s6/-/raw/main/wsld.tar.gz", tarpath.wstring().c_str(), 0, NULL);
     importDistro("wsld", tarpath, installpath);
 }
 
