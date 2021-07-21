@@ -34,9 +34,6 @@ RUN apk --update --no-cache add tar \
       # tool: service
       openrc \
     && addgroup root docker \
-    # Step1: `service docker start` in alpine
-    && mkdir -p /run/openrc \
-    && touch /run/openrc/softlevel \
     # clean files
     && rm -vrf /var/cache/apk/* \
     && rm -vrf /var/lib/apk/* \
@@ -47,8 +44,8 @@ COPY daemon.json /etc/docker/
 
 # wsl setting && DNS no 172.28.160.1
 # wsl.conf & resolv.conf copied by `COPY container-files /`
-# readonly
-RUN chmod 0444 /etc/resolv.conf 
+# readonly `chmod 0444`
+RUN chmod a+rwx,u-wx,g-wx,o-wx,ug-s,-t /etc/resolv.conf 
 
-# Step2: `service docker start` in alpine
+# Tips: `service docker start` in alpine
 ENTRYPOINT ["entrypoint.sh"]
