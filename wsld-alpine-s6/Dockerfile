@@ -43,8 +43,9 @@ RUN apk --update --no-cache add tar \
 # add docker mirrors
 COPY daemon.json /etc/docker/
 
+
 # wsl setting，DNS no 172.28.160.1
-RUN wget "https://raw.githubusercontent.com/dennischancs/clearlinuxWSL/main/general-settings/tmp.tar.gz" -O /tmp/tmp.tar.gz \
+RUN wget "https://gitlab.com/dennischancs/wsld-alpine-s6/-/raw/main/tool/tmp.tar.gz" -O /tmp/tmp.tar.gz \
     && cd /tmp && tar -xzf tmp.tar.gz \
     && chmod +x run.sh && . run.sh \
     && rm -rf /tmp/* \
