@@ -47,7 +47,8 @@ COPY daemon.json /etc/docker/
 # wsl setting，DNS no 172.28.160.1
 COPY config /etc/
 # readonly & cannot del
-RUN chattr +i /etc/resolv.conf
+# RUN chattr +i /etc/resolv.conf
+RUN chmod -wx /etc/resolv.conf
 
 # Tips: `service docker start` in alpine
 ENTRYPOINT ["entrypoint.sh"]
