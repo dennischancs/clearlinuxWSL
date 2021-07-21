@@ -45,10 +45,16 @@ RUN apk --update --no-cache add tar \
 COPY daemon.json /etc/docker/
 
 # wsl setting，DNS no 172.28.160.1
-COPY config /etc/
-# readonly & cannot del
-# RUN chattr +i /etc/resolv.conf
-RUN chmod -wx /etc/resolv.conf
+RUN rm -f /etc/wsl.conf \
+    && echo "[network]" > /etc/wsl.conf \
+    && echo "generateResolvConf = false" >> /etc/wsl.conf \
+    && rm -f /etc/resolv.conf \
+    && echo "# /etc/resolv.conf" > /etc/resolv.conf \
+    && echo "nameserver 223.5.5.5" >> /etc/resolv.conf \
+    && echo "nameserver 223.6.6.6" >> /etc/resolv.conf \
+    # readonly & cannot del
+    RUN chattr +i /etc/resolv.conf
+    # RUN chmod -wx /etc/resolv.conf
 
 # Tips: `service docker start` in alpine
 ENTRYPOINT ["entrypoint.sh"]
