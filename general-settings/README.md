@@ -19,3 +19,8 @@ nameserver 223.6.6.6
 ```
 
 [ReadOnly] `chmod 0444 /etc/resolv.conf`
+
+
+
+-----
+`tar -zcf tmp.tar.gz run.sh resolv.conf wsl.conf`

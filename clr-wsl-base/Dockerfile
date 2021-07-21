@@ -51,16 +51,11 @@ RUN pip install --no-cache-dir xonsh \
     && rm -rf /tmp/*
 
 # wsl setting，DNS no 172.28.160.1
-RUN rm -f /etc/wsl.conf \
-    && echo "[network]" > /etc/wsl.conf \
-    && echo "generateResolvConf = false" >> /etc/wsl.conf \
-    && rm -f /etc/resolv.conf \
-    && echo "# /etc/resolv.conf" > /etc/resolv.conf \
-    && echo "nameserver 223.5.5.5" >> /etc/resolv.conf \
-    && echo "nameserver 223.6.6.6" >> /etc/resolv.conf
-    # readonly & cannot del
-    #RUN chattr +i /etc/resolv.conf
-    # RUN chmod -wx /etc/resolv.conf
+RUN wget "https://raw.githubusercontent.com/dennischancs/clearlinuxWSL/main/general-settings/tmp.tar.gz" -O /tmp/tmp.tar.gz \
+    && cd /tmp && tar -xzf tmp.tar.gz \
+    && chmod +x run.sh && . run.sh \
+    && rm -rf /tmp/* \
+    && rm ~/.wget-hsts
 
 # set xonsh as default, ubuntu没这么麻烦的问题
 COPY .xonshrc /root/
