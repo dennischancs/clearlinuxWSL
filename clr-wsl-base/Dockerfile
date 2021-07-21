@@ -5,12 +5,7 @@ FROM clearlinux:latest
 ARG swupd_args
 
 COPY container-files /
-RUN \
-    # xonsh config file
-    && cp /tmp/.xonshrc ~/ \
-    # wsl & dns config file
-    && chmod u+x,g+x /wsldns.sh \
-    && echo ". /wsldns.sh" >> ~/.xonshrc \
+RUN chmod u+x,g+x /wsldns.sh \
     # prepare: set xonsh as default, ubuntu没这么麻烦的问题
     && chage -M 99999 root \
     && chage -m 0 root \
