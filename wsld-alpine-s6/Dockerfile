@@ -11,7 +11,8 @@ RUN chmod u+x,g+x /usr/local/bin/entrypoint.sh \
     && ln -s /usr/local/bin/entrypoint.sh / # backwards compat
 
 # add s6-overlay && chang timezone(TZ)
-RUN apk --update --no-cache add wget ca-certificates \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk --update --no-cache add wget ca-certificates \
     # add s6-overlay
     && cd /tmp \
     && wget https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz \
@@ -42,14 +43,6 @@ RUN apk --update --no-cache add tar \
 
 # add docker mirrors
 COPY daemon.json /etc/docker/
-
-
-# wsl setting，DNS no 172.28.160.1
-RUN wget "https://gitlab.com/dennischancs/wsld-alpine-s6/-/raw/main/tool/tmp.tar.gz" -O /tmp/tmp.tar.gz \
-    && cd /tmp && tar -xzf tmp.tar.gz \
-    && chmod +x run.sh && . run.sh \
-    && rm -rf /tmp/* \
-    && rm ~/.wget-hsts
 
 # Tips: `service docker start` in alpine
 ENTRYPOINT ["entrypoint.sh"]
