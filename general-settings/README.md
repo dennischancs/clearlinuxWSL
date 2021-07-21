@@ -18,4 +18,4 @@ nameserver 223.5.5.5
 nameserver 223.6.6.6
 ```
 
-[Important] `chattr +i /etc/resolv.conf`
+[ReadOnly] `chmod 0444 /etc/resolv.conf`

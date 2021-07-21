@@ -52,7 +52,7 @@ RUN pip install --no-cache-dir xonsh \
 
 # wsl setting，DNS no 172.28.160.1
 COPY config /etc/
-RUN chattr +i /etc/resolv.conf
+RUN chmod 0444 /etc/resolv.conf
 
 # set xonsh as default, ubuntu没这么麻烦的问题
 COPY .xonshrc /root/
