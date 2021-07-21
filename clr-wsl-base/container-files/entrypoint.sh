@@ -14,17 +14,7 @@ rm -f /etc/resolv.conf \
     # readonly & cannot del
     && chattr +i /etc/resolv.conf # cannot work in docker
 
-#---- `service docker start` in alpine----
-# Step1
-mkdir -p /run/openrc
-touch /run/openrc/softlevel
-
-# Step2
-echo "Service 'All': Status"
-rc-status -a
-
-echo "Service 'docker': Starting ..."
-
-rc-service docker start
+#---- start xonsh----
+xonsh
 
 exec $@

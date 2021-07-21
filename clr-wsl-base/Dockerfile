@@ -4,32 +4,45 @@ FROM clearlinux:latest
 
 ARG swupd_args
 
+COPY container-files /
+RUN chmod u+x,g+x /entrypoint.sh \
+    # prepare: set xonsh as default, ubuntu没这么麻烦的问题
+    && chage -M 99999 root \
+    && chage -m 0 root \
+    && chage -W 7 root \
+    && chmod 644 /etc/passwd \
+    && cp /etc/passwd /etc/passwd- \
+    # let `chsh` work for `root` after build
+    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh \
+    # xonsh config file
+    && cp /tmp/.xonshrc ~/
+
 # 补充bundles，参考补充ubuntu wsl版默认的包
 RUN swupd update --no-boot-update $swupd_args \
     && swupd bundle-add python3-basic \
         sysadmin-basic \
         sysadmin-remote \
         editors \
-        aspell \
+        #aspell \
         curl wget git \
         openssh-server \
-        less \
+        #less \
         net-tools \
-        mtr \
-        netkit-telnet \
-        texinfo \
+        #mtr \
+        #netkit-telnet \
+        #texinfo \
         x11-tools \
-        byobu \
-        diffoscope \
-        dosfstools \
+        #byobu \
+        #diffoscope \
+        #dosfstools \
         fuse \
         ghostscript \
-        logrotate \
+        #logrotate \
         lz4 \
-        rsyslog \
-        ceph \
+        #rsyslog \
+        #ceph \
         cronie \
-        polkit \
+        #polkit \
         rsync \
     && rm -rf /var/lib/swupd/* \
     && rm -rf /tmp/*
@@ -48,25 +61,8 @@ RUN pip install --no-cache-dir xonsh \
         xontrib-z \
         xontrib-back2dir \
         xontrib-sh \
+    # set xonsh as default
+    && chsh -s $(which xonsh) \
     && rm -rf /tmp/*
 
-# wsl setting，DNS no 172.28.160.1
-RUN wget "https://gitlab.com/dennischancs/wsld-alpine-s6/-/raw/main/tool/tmp.tar.gz" -O /tmp/tmp.tar.gz \
-    && cd /tmp && tar -xzf tmp.tar.gz \
-    && chmod +x run.sh && . run.sh \
-    && rm -rf /tmp/* \
-    && rm ~/.wget-hsts
-
-# set xonsh as default, ubuntu没这么麻烦的问题
-COPY .xonshrc /root/
-COPY passwd /etc/
-RUN chage -M 99999 root \
-    && chage -m 0 root \
-    && chage -W 7 root \
-    && chmod 644 /etc/passwd \
-    && cp /etc/passwd /etc/passwd- \
-    && chsh -s $(which xonsh) \
-    # let `chsh` work for `root` after build
-    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh
-
-CMD ["xonsh"]
+ENTRYPOINT ["entrypoint.sh"]

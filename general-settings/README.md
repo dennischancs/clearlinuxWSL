@@ -20,7 +20,7 @@ nameserver 223.6.6.6
 
 [ReadOnly] `chmod 0444 /etc/resolv.conf`
 
-
-
------
-`tar -zcf tmp.tar.gz run.sh resolv.conf wsl.conf`
+【注意】
+1. 在docker里，不能改resolv.conf，这是特殊的只读文件；
+2. 在docker里，不能用chattr，这受docker的权限限制。
+如果该docekr镜像使用成WSL，办法是：写在entrypoint.sh脚本里，并在shell的环境变量 `.bashrc`中添加 `. /entrypoint.sh`，每次进入wsl会自动执行一次。其它进程调用，则先执行`. /entrypoint.sh`。
