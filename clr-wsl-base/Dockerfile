@@ -10,7 +10,7 @@ RUN \
     && cp /tmp/.xonshrc ~/ \
     # wsl & dns config file
     && chmod u+x,g+x /wsldns.sh \
-    && echo ". /wsldns.sh" >> ~/.xonshrc
+    && echo ". /wsldns.sh" >> ~/.xonshrc \
     # prepare: set xonsh as default, ubuntu没这么麻烦的问题
     && chage -M 99999 root \
     && chage -m 0 root \
@@ -18,7 +18,7 @@ RUN \
     && chmod 644 /etc/passwd \
     && cp /etc/passwd /etc/passwd- \
     # let `chsh` work for `root` after build
-    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh \
+    && sed s/required/sufficient/g -i /usr/share/pam.d/chsh
 
 
 # 补充bundles，参考补充ubuntu wsl版默认的包

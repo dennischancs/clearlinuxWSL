@@ -8,7 +8,12 @@ an alpine wsl image supporting for [Rucadi/wsld](https://github.com/Rucadi/wsld)
 |HDD | 325MB | 1128MB |
 |RAM | 113MB | 144MB |
 
-PS: alpine start docker use `. /entrypoint.sh` for some special prepare
+PS: alpine wsl image `service docker start` use `. /entrypoint.sh` for some special prepare.
+
+USAGE:
+1. [download](./wsld/wsld-x86_64.zip) new `wsld.exe` to replace original executable.
+2. `unzip wsld-x86_64.zip`
+3. in PowerShell `.\wsld.exe -d test -i alpine:latest`
 
 # Welcome to WSLD!
 
