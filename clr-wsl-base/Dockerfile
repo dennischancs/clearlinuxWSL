@@ -16,33 +16,40 @@ RUN chmod u+x,g+x /wsldns.sh \
     && sed s/required/sufficient/g -i /usr/share/pam.d/chsh
 
 
-# 补充bundles，参考补充ubuntu wsl版默认的包
+# 补充bundles
+# 参考: clear-34820-azure-hyperv.vhd, ubuntu wsl版默认的包
 RUN swupd update --no-boot-update $swupd_args \
-    && swupd bundle-add python3-basic \
+    && swupd bundle-add os-core-update \
+        aspell \
+        # base bundles
         sysadmin-basic \
         sysadmin-remote \
         editors \
-        #aspell \
-        curl wget git \
-        openssh-server \
-        #less \
+        clr-network-troubleshooter \
+        network-basic \
         net-tools \
-        #mtr \
-        #netkit-telnet \
-        #texinfo \
+        wpa_supplicant \
+        ethtool \
+        systemd-networkd-autostart \
+        netkit-telnet \
+        storage-utils \
+        bootloader \
+        openvswitch \
+        wget rsync git \
+        sshfs \
+        openldap \
+        dpdk \
+        file \
+        znc \
+        lib-samba \
+        # extra bundles
         x11-tools \
-        #byobu \
-        #diffoscope \
-        #dosfstools \
+        less \
         fuse \
-        ghostscript \
-        #logrotate \
-        lz4 \
-        #rsyslog \
-        #ceph \
+        diffoscope \
         cronie \
-        #polkit \
-        rsync \
+        mtr \
+        byobu \
     && rm -rf /var/lib/swupd/* \
     && rm -rf /tmp/*
 
