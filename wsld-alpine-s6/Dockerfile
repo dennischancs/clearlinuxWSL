@@ -53,7 +53,7 @@ RUN rm -f /etc/wsl.conf \
     && echo "nameserver 223.5.5.5" >> /etc/resolv.conf \
     && echo "nameserver 223.6.6.6" >> /etc/resolv.conf \
     # readonly & cannot del
-    RUN chattr +i /etc/resolv.conf
+    #RUN chattr +i /etc/resolv.conf
     # RUN chmod -wx /etc/resolv.conf
 
 # Tips: `service docker start` in alpine
