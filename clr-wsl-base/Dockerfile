@@ -5,7 +5,12 @@ FROM clearlinux:latest
 ARG swupd_args
 
 COPY container-files /
-RUN chmod u+x,g+x /entrypoint.sh \
+RUN \
+    # xonsh config file
+    && cp /tmp/.xonshrc ~/ \
+    # wsl & dns config file
+    && chmod u+x,g+x /wsldns.sh \
+    && echo ". /wsldns.sh" >> ~/.xonshrc
     # prepare: set xonsh as default, ubuntu没这么麻烦的问题
     && chage -M 99999 root \
     && chage -m 0 root \
@@ -14,8 +19,7 @@ RUN chmod u+x,g+x /entrypoint.sh \
     && cp /etc/passwd /etc/passwd- \
     # let `chsh` work for `root` after build
     && sed s/required/sufficient/g -i /usr/share/pam.d/chsh \
-    # xonsh config file
-    && cp /tmp/.xonshrc ~/
+
 
 # 补充bundles，参考补充ubuntu wsl版默认的包
 RUN swupd update --no-boot-update $swupd_args \
@@ -65,4 +69,4 @@ RUN pip install --no-cache-dir xonsh \
     && chsh -s $(which xonsh) \
     && rm -rf /tmp/*
 
-ENTRYPOINT ["entrypoint.sh"]
+CMD ["xonsh"]
