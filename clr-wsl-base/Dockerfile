@@ -52,8 +52,8 @@ RUN pip install --no-cache-dir xonsh \
 
 # wsl setting，DNS no 172.28.160.1
 COPY config /etc/
-# readonly `chmod 0444`
-RUN chmod a+rwx,u-wx,g-wx,o-wx,ug-s,-t /etc/resolv.conf
+# readonly & cannot del
+RUN chattr +i /etc/resolv.conf
 
 # set xonsh as default, ubuntu没这么麻烦的问题
 COPY .xonshrc /root/

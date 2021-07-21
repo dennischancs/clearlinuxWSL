@@ -33,6 +33,8 @@ RUN apk --update --no-cache add tar \
       docker \
       # tool: service
       openrc \
+      # tool: chattr
+      e2fsprogs-extra \
     && addgroup root docker \
     # clean files
     && rm -vrf /var/cache/apk/* \
@@ -42,10 +44,10 @@ RUN apk --update --no-cache add tar \
 # add docker mirrors
 COPY daemon.json /etc/docker/
 
-# wsl setting && DNS no 172.28.160.1
-# wsl.conf & resolv.conf copied by `COPY container-files /`
-# readonly `chmod 0444`
-RUN chmod a+rwx,u-wx,g-wx,o-wx,ug-s,-t /etc/resolv.conf 
+# wsl setting，DNS no 172.28.160.1
+COPY config /etc/
+# readonly & cannot del
+RUN chattr +i /etc/resolv.conf
 
 # Tips: `service docker start` in alpine
 ENTRYPOINT ["entrypoint.sh"]
