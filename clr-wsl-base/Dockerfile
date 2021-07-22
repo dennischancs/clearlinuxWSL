@@ -5,7 +5,8 @@ FROM clearlinux:latest
 ARG swupd_args
 
 COPY container-files /
-RUN chmod u+x,g+x /usr/bin/wsldns.sh \
+RUN chmod u+x,g+x /usr/bin/xpip \
+    && chmod u+x,g+x /usr/bin/wsldns.sh \
     && ln -s /usr/bin/wsldnes.sh /  \
     # prepare: set xonsh as default, ubuntu没这么麻烦的问题
     && chage -M 99999 root \
@@ -57,7 +58,7 @@ RUN swupd update --no-boot-update $swupd_args \
 # add xonsh
 RUN pip install --no-cache-dir --disable-pip-version-check xonsh[full] \
     && ln -s $(which xonsh) /usr/bin/xonsh \
-    && xpip install --no-cache-dir \
+    && xpip install --no-cache-dir --disable-pip-version-check \
         xontrib-argcomplete \
         xonsh-autoxsh \
         xonsh-docker-tabcomplete \
@@ -70,7 +71,7 @@ RUN pip install --no-cache-dir --disable-pip-version-check xonsh[full] \
         xontrib-back2dir \
         xontrib-sh \
     # set xonsh as default
-    && chsh -s $(which xonsh) \
+    # && chsh -s $(which xonsh) \
     && rm -rf /tmp/*
 
 CMD ["/usr/bin/xonsh"]
