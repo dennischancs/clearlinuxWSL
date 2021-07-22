@@ -18,7 +18,7 @@ nameserver 223.5.5.5
 nameserver 223.6.6.6
 ```
 
-[ReadOnly] `chmod 0444 /etc/resolv.conf`
+[Important] `chmod 755 /etc/resolv.conf`
 
 【注意】
 1. 在docker里，不能改resolv.conf，这是特殊的只读文件；

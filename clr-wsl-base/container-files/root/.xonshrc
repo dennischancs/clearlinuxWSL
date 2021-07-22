@@ -132,4 +132,4 @@ if ON_LINUX:
             #xontrib load apt_tabcomplete
             pass
 
-. /wsldns.sh
+sh /wsldns.sh

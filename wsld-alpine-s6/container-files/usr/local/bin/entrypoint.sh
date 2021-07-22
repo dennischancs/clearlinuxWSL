@@ -12,6 +12,7 @@ rm -f /etc/resolv.conf
 echo "# /etc/resolv.conf" > /etc/resolv.conf
 echo "nameserver 223.5.5.5" >> /etc/resolv.conf
 echo "nameserver 223.6.6.6" >> /etc/resolv.conf
+chmod 755 /etc/resolv.conf
 # readonly & cannot del
 chattr +i /etc/resolv.conf # cannot work in docker
 
