@@ -58,7 +58,7 @@ RUN swupd update --no-boot-update $swupd_args \
 # add xonsh
 RUN pip install --no-cache-dir --disable-pip-version-check xonsh[full] \
     && ln -s $(which xonsh) /usr/bin/xonsh \
-    && xpip install --no-cache-dir --disable-pip-version-check \
+    && /usr/bin/python3 -m pip install --no-cache-dir --disable-pip-version-check \
         xontrib-argcomplete \
         xonsh-autoxsh \
         xonsh-docker-tabcomplete \
