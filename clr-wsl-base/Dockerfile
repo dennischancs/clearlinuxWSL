@@ -6,7 +6,7 @@ ARG swupd_args
 
 COPY container-files /
 RUN chmod u+x,g+x /usr/bin/wsldns.sh \
-    && ln -s /usr/bin/wsldnes.sh /  \ # backwards compat
+    && ln -s /usr/bin/wsldnes.sh /  \
     # prepare: set xonsh as default, ubuntu没这么麻烦的问题
     && chage -M 99999 root \
     && chage -m 0 root \
