@@ -2,13 +2,7 @@
 set -e
 
 #---- RESET wsl setting，DNS no 172.28.160.1 ----
-if test -f "/etc/wsl.conf"; then
-  cp -f /etc/wsl.conf /etc/wsl.conf.bak
-  rm -f /etc/wsl.conf
-  echo "[network]" > /etc/wsl.conf
-  echo "generateResolvConf = false" >> /etc/wsl.conf
-  chmod 644 /etc/wsl.conf
-fi
+#---- compat. for X410 server
 
 if test -f "/etc/resolv.conf"; then
   cp -f /etc/resolv.conf /etc/resolv.conf.bak
